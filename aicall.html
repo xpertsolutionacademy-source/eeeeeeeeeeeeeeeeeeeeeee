@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./asste file/image file/xpert solution academmy f-01.png">
+    <title>Support</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #000;
+            color: #00ff00;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Matrix Background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.05;
+        }
+
+        /* Main Container */
+        .main-container {
+            width: 100%;
+            max-width: 1400px;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 2rem;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* AI Section */
+        .ai-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .ai-container {
+            position: relative;
+            width: 350px;
+            height: 450px;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(1deg); }
+            75% { transform: translateY(15px) rotate(-1deg); }
+        }
+
+        /* AI Face Container */
+        .ai-face {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
+            background: radial-gradient(circle at center, rgba(0, 255, 0, 0.1) 0%, transparent 70%);
+        }
+
+        /* Cyberpunk Overlay */
+        .cyber-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(0, 255, 0, 0.1) 50%, 
+                transparent 70%);
+            pointer-events: none;
+            animation: scan 3s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* Circuit Frame */
+        .circuit-frame {
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border: 2px solid #00ff00;
+            border-radius: 25px;
+            pointer-events: none;
+        }
+
+        .circuit-frame::before,
+        .circuit-frame::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #00ff00;
+            border-radius: 50%;
+        }
+
+        .circuit-frame::before {
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .circuit-frame::after {
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Corner Elements */
+        .corner-element {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid #00ff00;
+        }
+
+        .corner-element.top-left {
+            top: -5px;
+            left: -5px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-element.top-right {
+            top: -5px;
+            right: -5px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-element.bottom-left {
+            bottom: -5px;
+            left: -5px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-element.bottom-right {
+            bottom: -5px;
+            right: -5px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Voice Indicator */
+        .voice-status {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(0, 255, 0, 0.1);
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 2px solid #00ff00;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .voice-status.active {
+            opacity: 1;
+        }
+
+        .voice-bars {
+            display: flex;
+            gap: 4px;
+        }
+
+        .voice-bar {
+            width: 4px;
+            height: 20px;
+            background: #00ff00;
+            border-radius: 2px;
+            animation: soundWave 0.6s ease-in-out infinite;
+        }
+
+        .voice-bar:nth-child(2) { animation-delay: 0.1s; }
+        .voice-bar:nth-child(3) { animation-delay: 0.2s; }
+        .voice-bar:nth-child(4) { animation-delay: 0.3s; }
+        .voice-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes soundWave {
+            0%, 100% { height: 20px; }
+            50% { height: 35px; }
+        }
+
+        /* Status Panel */
+        .status-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            background: rgba(0, 255, 0, 0.05);
+            padding: 15px 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .status-text {
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(0, 255, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 255, 0, 0); }
+        }
+
+        /* Chat Section */
+        .chat-section {
+            display: flex;
+            flex-direction: column;
+            background: rgba(0, 255, 0, 0.02);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.05);
+            border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-title {
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .chat-subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .connection-dot {
+            width: 6px;
+            height: 6px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Language Selector */
+        .language-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .language-select {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .language-select option {
+            background: #000;
+            color: #00ff00;
+        }
+
+        /* Messages Container */
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 18px;
+            position: relative;
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+            background: rgba(0, 255, 0, 0.15);
+            border: 1px solid rgba(0, 255, 0, 0.3);
+        }
+
+        .message.ai {
+            align-self: flex-start;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.5;
+            margin-top: 5px;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            padding: 15px 20px;
+            background: rgba(0, 255, 0, 0.05);
+            border: 1px solid rgba(0, 255, 0, 0.2);
+            border-radius: 18px;
+            width: fit-content;
+        }
+
+        .typing-indicator.active {
+            display: flex;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Controls */
+        .controls {
+            padding: 20px;
+            background: rgba(0, 255, 0, 0.05);
+            border-top: 1px solid rgba(0, 255, 0, 0.2);
+            display: flex;
+            gap: 15px;
+        }
+
+        .control-btn {
+            flex: 1;
+            padding: 15px;
+            background: transparent;
+            border: 2px solid #00ff00;
+            color: #00ff00;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(0, 255, 0, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .control-btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .control-btn:hover {
+            background: rgba(0, 255, 0, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .control-btn:active {
+            transform: translateY(0);
+        }
+
+        .control-btn.recording {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+            color: #ff0000;
+            animation: recordingPulse 1.5s infinite;
+        }
+
+        @keyframes recordingPulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(255, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+            }
+            
+            .ai-container {
+                width: 250px;
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            
+            .ai-container {
+                width: 200px;
+                height: 260px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .language-selector {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Matrix Background -->
+    <canvas class="matrix-bg" id="matrixCanvas"></canvas>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- AI Section -->
+        <div class="ai-section">
+            <div class="ai-container">
+                <div class="voice-status" id="voiceStatus">
+                    <div class="voice-bars">
+                        <div class="voice-bar"></div>
+                        <div class="voice-bar"></div>
+                        <div class="voice-bar"></div>
+                        <div class="voice-bar"></div>
+                        <div class="voice-bar"></div>
+                    </div>
+                    <span id="voiceStatusText">Listening...</span>
+                </div>
+
+                <!-- AI Face with Cyberpunk Effects -->
+                <div class="ai-face">
+                    <!-- AI Generated Face SVG -->
+                    <svg width="100%" height="100%" viewBox="0 0 350 450" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Face Outline -->
+                        <ellipse cx="175" cy="200" rx="120" ry="150" fill="none" stroke="#00ff00" stroke-width="2" opacity="0.8"/>
+                        
+                        <!-- Head Circuit Pattern -->
+                        <g id="headCircuits">
+                            <circle cx="175" cy="100" r="80" fill="none" stroke="#00ff00" stroke-width="1" opacity="0.3"/>
+                            <circle cx="175" cy="100" r="90" fill="none" stroke="#00ff00" stroke-width="0.5" opacity="0.2"/>
+                            <circle cx="175" cy="100" r="100" fill="none" stroke="#00ff00" stroke-width="0.5" opacity="0.1"/>
+                        </g>
+                        
+                        <!-- Eyes -->
+                        <g id="eyes">
+                            <!-- Left Eye -->
+                            <g>
+                                <ellipse cx="130" cy="170" rx="25" ry="15" fill="none" stroke="#00ff00" stroke-width="2"/>
+                                <ellipse cx="130" cy="170" rx="20" ry="12" fill="#00ff00" opacity="0.3"/>
+                                <circle cx="130" cy="170" r="8" fill="#00ff00">
+                                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+                                </circle>
+                                <circle cx="130" cy="170" r="3" fill="#000"/>
+                            </g>
+                            
+                            <!-- Right Eye -->
+                            <g>
+                                <ellipse cx="220" cy="170" rx="25" ry="15" fill="none" stroke="#00ff00" stroke-width="2"/>
+                                <ellipse cx="220" cy="170" rx="20" ry="12" fill="#00ff00" opacity="0.3"/>
+                                <circle cx="220" cy="170" r="8" fill="#00ff00">
+                                    <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+                                </circle>
+                                <circle cx="220" cy="170" r="3" fill="#000"/>
+                            </g>
+                        </g>
+                        
+                        <!-- Nose -->
+                        <path d="M175 190 L170 210 L180 210 Z" fill="none" stroke="#00ff00" stroke-width="1.5" opacity="0.7"/>
+                        
+                        <!-- Mouth -->
+                        <path d="M140 240 Q175 260 210 240" fill="none" stroke="#00ff00" stroke-width="2" stroke-linecap="round"/>
+                        
+                        <!-- Neural Network Lines -->
+                        <g id="neuralNetwork" opacity="0.4">
+                            <line x1="130" y1="170" x2="100" y2="140" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="130" y1="170" x2="100" y2="200" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="220" y1="170" x2="250" y2="140" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="220" y1="170" x2="250" y2="200" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="175" y1="200" x2="175" y2="280" stroke="#00ff00" stroke-width="1"/>
+                            
+                            <!-- Neural Nodes -->
+                            <circle cx="100" cy="140" r="3" fill="#00ff00"/>
+                            <circle cx="100" cy="200" r="3" fill="#00ff00"/>
+                            <circle cx="250" cy="140" r="3" fill="#00ff00"/>
+                            <circle cx="250" cy="200" r="3" fill="#00ff00"/>
+                            <circle cx="175" cy="280" r="3" fill="#00ff00"/>
+                        </g>
+                        
+                        <!-- Core Processor -->
+                        <g id="coreProcessor">
+                            <rect x="155" y="290" width="40" height="40" fill="none" stroke="#00ff00" stroke-width="2" rx="5"/>
+                            <circle cx="175" cy="310" r="12" fill="none" stroke="#00ff00" stroke-width="1.5"/>
+                            <line x1="163" y1="310" x2="187" y2="310" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="175" y1="298" x2="175" y2="322" stroke="#00ff00" stroke-width="1"/>
+                            <circle cx="175" cy="310" r="3" fill="#00ff00">
+                                <animate attributeName="r" values="3;5;3" dur="1.5s" repeatCount="indefinite"/>
+                            </circle>
+                        </g>
+                        
+                        <!-- Side Circuits -->
+                        <g id="sideCircuits" opacity="0.5">
+                            <rect x="50" y="180" width="30" height="60" fill="none" stroke="#00ff00" stroke-width="1" rx="5"/>
+                            <line x1="60" y1="190" x2="70" y2="190" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="60" y1="210" x2="70" y2="210" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="60" y1="230" x2="70" y2="230" stroke="#00ff00" stroke-width="1"/>
+                            
+                            <rect x="270" y="180" width="30" height="60" fill="none" stroke="#00ff00" stroke-width="1" rx="5"/>
+                            <line x1="280" y1="190" x2="290" y2="190" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="280" y1="210" x2="290" y2="210" stroke="#00ff00" stroke-width="1"/>
+                            <line x1="280" y1="230" x2="290" y2="230" stroke="#00ff00" stroke-width="1"/>
+                        </g>
+                        
+                        <!-- Decorative Elements -->
+                        <g id="decorative" opacity="0.3">
+                            <circle cx="175" cy="380" r="20" fill="none" stroke="#00ff00" stroke-width="1"/>
+                            <circle cx="175" cy="380" r="30" fill="none" stroke="#00ff00" stroke-width="0.5"/>
+                            <circle cx="175" cy="380" r="40" fill="none" stroke="#00ff00" stroke-width="0.5"/>
+                        </g>
+                        
+                        <!-- Scanning Line Effect -->
+                        <rect x="0" y="0" width="350" height="2" fill="url(#scanGradient)">
+                            <animate attributeName="y" values="0;450;0" dur="3s" repeatCount="indefinite"/>
+                        </rect>
+                        
+                        <!-- Gradient Definition -->
+                        <defs>
+                            <linearGradient id="scanGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00ff00;stop-opacity:0" />
+                                <stop offset="50%" style="stop-color:#00ff00;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#00ff00;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    
+                    <div class="cyber-overlay"></div>
+                    <div class="circuit-frame"></div>
+                    <div class="corner-element top-left"></div>
+                    <div class="corner-element top-right"></div>
+                    <div class="corner-element bottom-left"></div>
+                    <div class="corner-element bottom-right"></div>
+                </div>
+            </div>
+
+            <div class="status-panel">
+                <div class="status-text">
+                    <span class="status-indicator"></span>
+                    <span id="systemStatus">Muhammad Ayaz</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section">
+            <div class="chat-header">
+                <div>
+                    <div class="chat-title">XPERT SOLUTION ACADEMY </div>
+                    <div class="chat-subtitle">XPERT SOLUTION ACADEMY CALL</div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <div class="connection-status">
+                        <span class="connection-dot"></span>
+                        <span>🔴 Live</span>
+                    </div>
+                    <div class="language-selector">
+                        <span>Language:</span>
+                        <select class="language-select" id="languageSelect">
+                            <option value="en-US">English</option>
+                            <option value="ur-PK">اردو (Urdu)</option>
+                            <option value="sd-PK">سنڌي (Sindhi)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="messages-container" id="messagesContainer">
+                <div class="message ai">
+                    <div id="welcomeMessage">   "Welcome! I Am Xpert solution Academy Ai So Tell me and admission It Skills So Contact Manager Fatima unar and founder ? ceo muhammad ayaz memon and tell me ",
+</div>
+                    <div class="message-time" id="welcomeTime"></div>
+                </div>
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn" id="voiceBtn">
+                    <span>📞</span>
+                    <span>CALL</span>
+                </button>
+                <button class="control-btn" id="speakBtn">
+                    <span>🔊</span>
+                    <span>Speak Response</span>
+                </button>
+                <button class="control-btn" id="clearBtn">
+                    <span>🗑️</span>
+                    <span>Clear Chat</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        const matrixCanvas = document.getElementById('matrixCanvas');
+        const matrixCtx = matrixCanvas.getContext('2d');
+
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+
+        const matrixChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+        const charArray = matrixChars.split('');
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
+
+        function drawMatrix() {
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+
+            matrixCtx.fillStyle = '#00ff00';
+            matrixCtx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const char = charArray[Math.floor(Math.random() * charArray.length)];
+                matrixCtx.fillText(char, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 35);
+
+        // Multilingual Responses
+        const responses = {
+            'en-US': {
+                welcome: "Welcome! I Am Xpert solution Academy Ai So Tell me and admission It Skills So Contact Manager Fatima unar and founder ? ceo muhammad ayaz memon and tell me  Contact : 0319-830-5366",
+                greetings: {
+                    hello:  "Welcome! I Am Xpert solution Academy Ai So Tell me and admission It Skills So Contact Manager Fatima unar and founder ? ceo muhammad ayaz memon and tell me ",
+
+                    howAreYou: "I am operating at optimal capacity. All systems are functioning perfectly. Thank you for asking!",
+                    goodbye: "Goodbye! Have a wonderful day. I will be here whenever you need assistance. Take care!"
+                },
+                questions: {
+                    name: "I am the AI Guide, an advanced voice assistant designed to provide professional support and intelligent responses.",
+                    help: "I can help you with various tasks including answering questions, providing information, setting reminders, and engaging in conversation. What would you like assistance with?",
+                    capabilities: "I can engage in conversation, answer questions, provide information, tell jokes, give advice, and assist with various tasks through voice commands. I am continuously learning to improve my capabilities.",
+                    time: "The current time is {time} on {date}.",
+                    date: "Today is {date}."
+                },
+                responses: {
+                    weather: "I apologize, but I do not have access to real-time weather data. However, I recommend checking your local weather service for accurate information.",
+                    thank: "You are most welcome! It is my pleasure to assist you. Is there anything else I can help you with?",
+                    joke: "Here is a professional joke for you: Why do programmers prefer dark mode? Because light attracts bugs!",
+                    advice: "Here is some professional advice: Always continue learning, stay curious, embrace challenges as opportunities, and maintain a positive mindset. Success comes to those who persist.",
+                    default: "I understand you said: \"{input}\". How can I best assist you with this? Please provide more details so I can offer you the most relevant support."
+                }
+            },
+            'ur-PK': {
+                welcome: "خوش آمدید! میں آپ کا پیشہ ور AI گائیڈ ہوں. میں آپ کی آواز کے احکامات میں مدد کرنے اور ذہین جوابات فراہم کرنے کے لیے ہوں۔",
+                greetings: {
+                    hello: "سلام! میں آپ کا AI گائیڈ ہوں۔ میں آج آپ کی کیسے مدد کر سکتا ہوں؟",
+                    howAreYou: "میں بہترین صلاحیت سے کام کر رہا ہوں۔ تمام نظام بالکل درست کام کر رہے ہیں۔ پوچھنے کا شکریہ!",
+                    goodbye: "الوداع! آپ کا دن خوب رہے۔ میں ہمیشہ آپ کی مدد کے لیے موجود رہوں گا۔ خیال رکھیں!"
+                },
+                questions: {
+                    name: "میں AI گائیڈ ہوں، ایک اعلیٰ درجے کا آواز اسسٹنٹ جو پیشہ ور سپورٹ اور ذہین جوابات فراہم کرنے کے لیے ڈیزائن کیا گیا ہے۔",
+                    help: "میں آپ کو مختلف کاموں میں مدد کر سکتا ہوں جیسے سوالات کے جواب دینا، معلومات فراہم کرنا، یاد دہانیاں سیٹ کرنا، اور گفتگو میں شامل ہونا۔ آپ کی کیا مدد چاہیے؟",
+                    capabilities: "میں گفتگو کر سکتا ہوں، سوالات کے جواب دے سکتا ہوں، معلومات فراہم کر سکتا ہوں، جوکے سنا سکتا ہوں، مشورے دے سکتا ہوں، اور آواز کے احکامات کے ذریعے مختلف کاموں میں مدد کر سکتا ہوں۔ میں اپنی صلاحیتوں کو بہتر بنانے کے لیے مسلسل سیکھ رہا ہوں۔",
+                    time: "موجودہ وقت {time} ہے اور تاریخ {date} ہے۔",
+                    date: "آج کی تاریخ {date} ہے۔"
+                },
+                responses: {
+                    weather: "معذرت، لیکن میں حقیقی وقت کے موسمیاتی ڈیٹا تک رسائی نہیں رکھتا۔ تاہم، میں درست معلومات کے لیے اپنے مقامی موسمیاتی سروس کو چیک کرنے کی تجویز کرتا ہوں۔",
+                    thank: "آپ کا بہت شکریہ! آپ کی مدد کرنا میری خوشی ہے۔ کیا میں آپ کی اور کوئی مدد کر سکتا ہوں؟",
+                    joke: "یہاں آپ کے لیے ایک پیشہ ور لطیفہ ہے: پروگرامر ڈارک موڈ کیوں پسند کرتے ہیں؟ کیونکہ روشنی بگس کو اٹرکٹ کرتی ہے!",
+                    advice: "یہاں کچھ پیشہ ور مشورہ ہے: ہمیشہ سیکھتے رہیں، متجہز رہیں، چیلنجز کو مواقع کے طور پر قبول کریں، اور مثبتی سوچ کو برقرار رکھیں۔ کامیابی ان لوگوں کو ملتی ہے جو مستقل رہتے ہیں۔",
+                    default: "میں سمجھ گیا کہ آپ نے کہا: \"{input}\"۔ میں اس میں آپ کی بہترین مدد کیسے کر سکتا ہوں؟ براہ کرم مزید تفصیلات فراہم کریں تاکہ میں آپ کو سب سے متعلقہ سپورٹ فراہم کر سکوں۔"
+                }
+            },
+            'sd-PK': {
+                welcome: "ڀلي ڪري آيو! مان توهانجو پيشور AI گائيڈ آهيان. مان توهانجي آواز جي حڪمن ۾ مدد ڪرڻ ۽ ذهين جواب ڏيڻ لاءِ آهيان.",
+                greetings: {
+                    hello: "السلام عليڪم! مان توهانجو AI گائيڈ آهيان. مان ڇاڪوڪ مدد ڪري سگهان ٿو؟",
+                    howAreYou: "مان بهترين ڪمائنڊ سان ڪم ڪري رهيو آهيان. سڀ نظام بالڪل درست ڪم ڪري رهيا آهن. پڇڻ جي مهرباني!",
+                    goodbye: "الوداع! توهانجو ڏينهن سٺو گذري. مان توهانجي مدد لاءِ هميشه هجان ٿو. خيال رکو!"
+                },
+                questions: {
+                    name: "مان AI گائيڈ آهيان، هڪ اعليٽ درجي جو آواز اسسٽنٽ جيڪو پيشور سپورٽ ۽ ذهين جواب ڏيڻ لاءِ ڊزائين ڪيل آهي.",
+                    help: "مان توهان کي ڪيترن ئي ڪمن ۾ مدد ڪري سگهان ٿو، جهڙوڪ: سوالن جا جواب ڏيڻ، معلومات فراهم ڪرڻ، ياد دهرايون سيٽ ڪرڻ، ۽ گفتگو ۾ شامل ٿيڻ. توهان کي ڇا مدد گهرجي؟",
+                    capabilities: "مان گفتگو ڪري سگهان ٿو، سوالن جا جواب ڏي سگهان ٿو، معلومات فراهم ڪري سگهان ٿو، جوڪا چائي سگهان ٿو، صلاح ڏي سگهان ٿو، ۽ آواز جي حڪمن ذريعي مختلف ڪمن ۾ مدد ڪري سگهان ٿو. مان پنهنجي صلاحيتن کي بهتر بڻائڻ لاءِ مسلسل سکڻ وارو آهيان.",
+                    time: "موجوده وقت {time} آهي ۽ تاريخ {date} آهي.",
+                    date: "اڄ جي تاريخ {date} آهي."
+                },
+                responses: {
+                    weather: "معاف ڪريو، پر مان حقيقي وقت جي موسمي ڊيٽا تائين رسائي نٿو رکون. البت، مان درست معلوماتن لاءِ پنهنجي مقامي موسمي خدمت چيڪ ڪرڻ جي صلاح ڏيان ٿو.",
+                    thank: "توهان جو وڏو مهرباني! توهان جي مدد ڪرڻ ميري خوشي آهي. ڇا مان توهان جي وڌيڪ مدد ڪري سگهان ٿو؟",
+                    joke: "هتي توهان لاءِ هڪ پيشور جوڪو آهي: پروگرامر ڊارڪ موڊ ڇوڪ پسند ڪندا آهن؟ ڇاڪاڪ ته روشني بگز کي ڇڪيندي آهي!",
+                    advice: "هتي ڪجھ پيشور صلاح آهي: هميشه سکڻ وارو رهو، متجہز رهو، چيلنجز کي مواقع جي طور قبول ڪرو، ۽ مثبتي سوچ برقرار رکو. ڪامي انھن ماڻھن کي ملندي آھي جيڪي مستقل رھندا آھن.",
+                    default: "مان سمجهيو آهيان ته توهان چيو: \"{input}\". مان ان ۾ توهان جي بهترين مدد ڪيئن ڪري سگهان ٿو؟ براءِ مھرباني وڌيڪ تفصيلون فراهم ڪريو ته مان توهان کي سڀ کان متعلقه سپورٽ فراهم ڪري سگهان."
+                }
+            }
+        };
+
+        // Voice Recognition Setup
+        let recognition;
+        let isRecording = false;
+        let currentLanguage = 'en-US';
+        const voiceBtn = document.getElementById('voiceBtn');
+        const speakBtn = document.getElementById('speakBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const languageSelect = document.getElementById('languageSelect');
+        const messagesContainer = document.getElementById('messagesContainer');
+        const typingIndicator = document.getElementById('typingIndicator');
+        const voiceStatus = document.getElementById('voiceStatus');
+        const voiceStatusText = document.getElementById('voiceStatusText');
+        const systemStatus = document.getElementById('systemStatus');
+        const welcomeTime = document.getElementById('welcomeTime');
+        const welcomeMessage = document.getElementById('welcomeMessage');
+
+        // Set welcome time and message
+        welcomeTime.textContent = new Date().toLocaleTimeString();
+        welcomeMessage.textContent = responses[currentLanguage].welcome;
+
+        // Language change handler
+        languageSelect.addEventListener('change', (e) => {
+            currentLanguage = e.target.value;
+            if (recognition) {
+                recognition.lang = currentLanguage;
+            }
+            updateWelcomeMessage();
+        });
+
+        function updateWelcomeMessage() {
+            welcomeMessage.textContent = responses[currentLanguage].welcome;
+        }
+
+        // Initialize Speech Recognition
+        if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.interimResults = false;
+            recognition.lang = currentLanguage;
+
+            recognition.onstart = () => {
+                isRecording = true;
+                voiceBtn.classList.add('recording');
+                voiceBtn.innerHTML = '<span>🛑</span><span>Stop Recording</span>';
+                voiceStatus.classList.add('active');
+                voiceStatusText.textContent = 'Listening...';
+                systemStatus.textContent = 'Listening...';
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                addMessage(transcript, 'user');
+                processUserInput(transcript);
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Speech recognition error:', event.error);
+                systemStatus.textContent = 'Error: ' + event.error;
+                stopRecording();
+            };
+
+            recognition.onend = () => {
+                stopRecording();
+            };
+        } else {
+            voiceBtn.disabled = true;
+            systemStatus.textContent = 'Voice recognition not supported';
+        }
+
+        function stopRecording() {
+            isRecording = false;
+            voiceBtn.classList.remove('recording');
+            voiceBtn.innerHTML = '<span>🎤</span><span>Voice Command</span>';
+            voiceStatus.classList.remove('active');
+            systemStatus.textContent = 'System Online';
+        }
+
+        voiceBtn.addEventListener('click', () => {
+            if (isRecording) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        });
+
+        // Text-to-Speech
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = currentLanguage;
+                utterance.rate = 0.9;
+                utterance.pitch = 1.0;
+                utterance.volume = 0.8;
+
+                utterance.onstart = () => {
+                    voiceStatus.classList.add('active');
+                    voiceStatusText.textContent = 'Speaking...';
+                    systemStatus.textContent = 'Speaking...';
+                };
+
+                utterance.onend = () => {
+                    voiceStatus.classList.remove('active');
+                    systemStatus.textContent = 'System Online';
+                };
+
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        speakBtn.addEventListener('click', () => {
+            const lastAIMessage = document.querySelector('.message.ai:last-child div:first-child');
+            if (lastAIMessage) {
+                speak(lastAIMessage.textContent);
+            }
+        });
+
+        // Chat Functions
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const textDiv = document.createElement('div');
+            textDiv.textContent = text;
+            
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'message-time';
+            timeDiv.textContent = new Date().toLocaleTimeString();
+            
+            messageDiv.appendChild(textDiv);
+            messageDiv.appendChild(timeDiv);
+            
+            messagesContainer.insertBefore(messageDiv, typingIndicator);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function processUserInput(input) {
+            const lowerInput = input.toLowerCase();
+            const langResponses = responses[currentLanguage];
+            let response = '';
+
+            // Check for greetings
+            if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hey') || 
+                lowerInput.includes('سلام') || lowerInput.includes('السلام') || lowerInput.includes('ڀلي ڪري')) {
+                response = langResponses.greetings.hello;
+            } else if (lowerInput.includes('how are you') || lowerInput.includes('تم کیسے ہو') || 
+                       lowerInput.includes('توهان ڪيئن آهيو') || lowerInput.includes('آپ کیسے ہیں')) {
+                response = langResponses.greetings.howAreYou;
+            } else if (lowerInput.includes('bye') || lowerInput.includes('goodbye') || 
+                       lowerInput.includes('الوداع') || lowerInput.includes('خدا حافظ')) {
+                response = langResponses.greetings.goodbye;
+            } else if (lowerInput.includes('your name') || lowerInput.includes('تمہارا نام') || 
+                       lowerInput.includes('توهانجو نالو') || lowerInput.includes('آپ کا نام')) {
+                response = langResponses.questions.name;
+            } else if (lowerInput.includes('help') || lowerInput.includes('مدد') || 
+                       lowerInput.includes('مدد ڪريو') || lowerInput.includes('help کریں')) {
+                response = langResponses.questions.help;
+            } else if (lowerInput.includes('capabilities') || lowerInput.includes('صلاحیت') || 
+                       lowerInput.includes('قابليت') || lowerInput.includes('ڇا ڪري سگهو ٿا')) {
+                response = langResponses.questions.capabilities;
+            } else if (lowerInput.includes('time') || lowerInput.includes('وقت') || 
+                       lowerInput.includes('وقت ڇا آهي')) {
+                const now = new Date();
+                response = langResponses.questions.time
+                    .replace('{time}', now.toLocaleTimeString())
+                    .replace('{date}', now.toLocaleDateString());
+            } else if (lowerInput.includes('date') || lowerInput.includes('تاریخ') || 
+                       lowerInput.includes('تاريخ') || lowerInput.includes('اڄ جي تاريخ')) {
+                const now = new Date();
+                response = langResponses.questions.date
+                    .replace('{date}', now.toLocaleDateString('en-US', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    }));
+            } else if (lowerInput.includes('weather') || lowerInput.includes('موسم') || 
+                       lowerInput.includes('موسم ڪيئن آهي')) {
+                response = langResponses.responses.weather;
+            } else if (lowerInput.includes('thank') || lowerInput.includes('شکریہ') || 
+                       lowerInput.includes('مهرباني') || lowerInput.includes('شڪريو')) {
+                response = langResponses.responses.thank;
+            } else if (lowerInput.includes('joke') || lowerInput.includes('لطیفہ') || 
+                       lowerInput.includes('جوڪو')) {
+                response = langResponses.responses.joke;
+            } else if (lowerInput.includes('advice') || lowerInput.includes('مشورہ') || 
+                       lowerInput.includes('صلاح')) {
+                response = langResponses.responses.advice;
+            } else {
+                response = langResponses.responses.default.replace('{input}', input);
+            }
+
+            // Show typing indicator
+            typingIndicator.classList.add('active');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Simulate processing time
+            setTimeout(() => {
+                typingIndicator.classList.remove('active');
+                addMessage(response, 'ai');
+                speak(response);
+            }, 1000 + Math.random() * 1000);
+        }
+
+        // Clear Chat
+        clearBtn.addEventListener('click', () => {
+            messagesContainer.innerHTML = `
+                <div class="message ai">
+                    <div>${responses[currentLanguage].welcome}</div>
+                    <div class="message-time">${new Date().toLocaleTimeString()}</div>
+                </div>
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+        });
+
+        // Window Resize
+        window.addEventListener('resize', () => {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+        });
+
+        // Initial greeting
+        setTimeout(() => {
+            speak(responses[currentLanguage].welcome);
+        }, 1500);
+
+        // Add interactive hover effect to the face
+        const aiFace = document.querySelector('.ai-face');
+        aiFace.addEventListener('mouseenter', () => {
+            aiFace.style.transform = 'scale(1.05)';
+            aiFace.style.transition = 'transform 0.3s ease';
+        });
+
+        aiFace.addEventListener('mouseleave', () => {
+            aiFace.style.transform = 'scale(1)';
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./asste file/image file/xpert solution academmy f-01.png">
+    <title>Earning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 0;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            animation: goldGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes goldGlow {
+            from { 
+                filter: drop-shadow(0 0 15px #ffd700);
+                transform: scale(1);
+            }
+            to { 
+                filter: drop-shadow(0 0 25px #ffd700);
+                transform: scale(1.02);
+            }
+        }
+
+        .subtitle {
+            color: #00ff26;
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Card Component */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(0, 255, 38, 0.2);
+            box-shadow: 0 0 20px rgba(0, 255, 38, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 38, 0.2);
+            border-color: #00ff26;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #00ff26;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Link Sharing Section */
+        .link-form {
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="url"] {
+            flex: 1;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 38, 0.3);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #00ff26;
+            box-shadow: 0 0 15px rgba(0, 255, 38, 0.3);
+        }
+
+        button {
+            background: linear-gradient(45deg, #37ff00, #44ff00);
+            color: #000;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(38, 255, 0, 0.4);
+        }
+
+        .links-list {
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .link-item {
+            background: rgba(0, 255, 38, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .link-item:hover {
+            background: rgba(0, 255, 38, 0.2);
+        }
+
+        .link-info {
+            flex: 1;
+        }
+
+        .original-link {
+            color: #ccc;
+            font-size: 14px;
+            word-break: break-all;
+            margin-bottom: 5px;
+        }
+
+        .short-link {
+            color: #00ff26;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .gold-coins-badge {
+            background: linear-gradient(45deg, #ffd700, #ffaa00);
+            color: #000;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+            min-width: 90px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        /* Dashboard Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: rgba(0, 255, 38, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 38, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .stat-label {
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .chart-container {
+            height: 220px;
+            background: rgba(0, 255, 38, 0.05);
+            border-radius: 10px;
+            display: flex;
+            align-items: end;
+            justify-content: space-around;
+            padding: 20px;
+            border: 1px solid rgba(0, 255, 38, 0.1);
+        }
+
+        .bar {
+            width: 40px;
+            background: linear-gradient(to top, #0aff06, #2ff308);
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+            position: relative;
+            animation: growBar 1s ease-out forwards;
+        }
+
+        @keyframes growBar {
+            from { height: 0; }
+        }
+
+        .bar::after {
+            content: attr(data-value);
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #ffffff;
+            font-size: 12px;
+        }
+
+        .recent-activity {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 255, 38, 0.1);
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 255, 38, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff26;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-type {
+            color: #00ff26;
+            font-weight: bold;
+        }
+
+        .activity-time {
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* Coin Animation System */
+        .coin {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle at 30% 30%, #ffd700, #ffaa00);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 0 10px rgba(13, 255, 1, 0.7);
+            animation: floatAndRotate 2s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes floatAndRotate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            70% {
+                transform: translateY(-100px) rotate(180deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-150px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Notification System */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: #fff;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.success {
+            background: linear-gradient(45deg, #000000, #08ff31);
+        }
+
+        .notification.error {
+            background: linear-gradient(45deg, #05ff3b, #1cff10);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .input-group {
+                flex-direction: column;
+            }
+            
+            input[type="text"], input[type="url"] {
+                width: 100%;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 38, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #00ff26;
+        }
+    </style>
+</head>
+<body>
+    <br>
+    &nbsp;
+&nbsp;
+ <img src="./asste file/image file/xpert solution academmy f-01.png" width="150px" height="90px">
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 style="color:"><i class="fas fa-coins"></i>EARNING</h1>
+            <p class="subtitle">Student Link Other Person Share Earning</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Link Sharing Section -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-link"></i> Create & Share Links</h2>
+                
+                <div class="link-form">
+                    <div class="input-group">
+                        <input type="url" id="originalUrl" placeholder="Enter original URL..." required>
+                        <button onclick="generateShortLink()">Generate Short Link</button>
+                    </div>
+                    
+                    <div class="input-group">
+                        <input type="text" id="customSlug" placeholder="Custom slug (optional)">
+                        <button onclick="copyToClipboard()">Copy All Links</button>
+                    </div>
+                </div>
+
+                <div class="links-list" id="linksList">
+                    <!-- Generated links will appear here -->
+                </div>
+            </div>
+
+            <!-- Earnings Dashboard -->
+            <div class="card">
+                <h2 class="card-title"><i class="fas fa-trophy"></i> Earnings Dashboard</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value"><i class="fas fa-coins"></i> <span id="totalCoins">0</span></div>
+                        <div class="stat-label">Total Golden Coins Earned</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><span id="totalClicks">0</span></div>
+                        <div class="stat-label">Total Clicks</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><span id="activeLinks">0</span></div>
+                        <div class="stat-label">Active Links</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value"><span id="conversionRate">0%</span></div>
+                        <div class="stat-label">Conversion Rate</div>
+                    </div>
+                </div>
+
+                <h3 style="color: #00ff26; margin-top: 25px; margin-bottom: 15px;">
+                    <i class="fas fa-chart-bar"></i> Weekly Performance
+                </h3>
+                <div class="chart-container" id="chartContainer">
+                    <!-- Chart bars will be generated here -->
+                </div>
+
+                <h3 style="color: #00ff26; margin-top: 25px; margin-bottom: 15px;">
+                    <i class="fas fa-history"></i> Recent Activity
+                </h3>
+                <div class="recent-activity" id="recentActivity">
+                    <!-- Recent activities will appear here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Audio Context for Sound Effects
+        let audioContext;
+        
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch(e) {
+                console.log('Web Audio API not supported');
+            }
+        }
+
+        // Play coin collection sound
+        function playCoinSound() {
+            if (!audioContext) return;
+            
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(000, audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(000, audioContext.currentTime + 0.1);
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.2);
+        }
+
+        // Data storage
+        let links = [];
+        let totalCoins = 0;
+        let totalClicks = 0;
+        let coinParticles = [];
+
+        // Generate short link
+        function generateShortLink() {
+            const originalUrl = document.getElementById('originalUrl').value.trim();
+            const customSlug = document.getElementById('customSlug').value.trim();
+
+            if (!originalUrl) {
+                showNotification('Please enter a valid URL', 'error');
+                return;
+            }
+
+            const shortId = customSlug || Math.random().toString(36).substring(2, 8);
+            const shortUrl = `https://xpertsolutionacademy.com/${shortId}`;
+
+            const linkData = {
+                id: Date.now(),
+                originalUrl,
+                shortUrl,
+                shortId,
+                clicks: 0,
+                coinsEarned: 0,
+                createdAt: new Date()
+            };
+
+            links.push(linkData);
+            updateLinksList();
+            updateDashboard();
+            clearForm();
+            addActivity('New link created', 'success');
+        }
+
+        // Update links list
+        function updateLinksList() {
+            const linksList = document.getElementById('linksList');
+            linksList.innerHTML = '';
+
+            links.forEach(link => {
+                const linkItem = document.createElement('div');
+                linkItem.className = 'link-item';
+                linkItem.innerHTML = `
+                    <div class="link-info">
+                        <div class="original-link">${link.originalUrl}</div>
+                        <div class="short-link">${link.shortUrl}</div>
+                    </div>
+                    <div class="gold-coins-badge"><i class="fas fa-coins"></i> <span>${link.coinsEarned}</span></div>
+                `;
+                linksList.appendChild(linkItem);
+            });
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            document.getElementById('totalCoins').textContent = totalCoins;
+            document.getElementById('totalClicks').textContent = totalClicks;
+            document.getElementById('activeLinks').textContent = links.length;
+            
+            const conversionRate = links.length > 0 ? ((totalClicks / links.length) * 100).toFixed(1) : 0;
+            document.getElementById('conversionRate').textContent = `${conversionRate}%`;
+
+            updateChart();
+        }
+
+        // Update chart
+        function updateChart() {
+            const chartContainer = document.getElementById('chartContainer');
+            chartContainer.innerHTML = '';
+
+            const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+            const values = [12, 19, 8, 15, 22, 18, 25]; // Sample data
+
+            days.forEach((day, index) => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = `${values[index] * 8}px`;
+                bar.setAttribute('data-value', values[index]);
+                chartContainer.appendChild(bar);
+            });
+        }
+
+        // Add activity
+        function addActivity(type, status) {
+            const activity = {
+                type,
+                time: new Date(),
+                status
+            };
+
+            const recentActivity = document.getElementById('recentActivity');
+            const activityItem = document.createElement('div');
+            activityItem.className = 'activity-item';
+            activityItem.innerHTML = `
+                <div class="activity-icon">
+                    <i class="fas fa-${status === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+                </div>
+                <div class="activity-details">
+                    <div class="activity-type">${type}</div>
+                    <div class="activity-time">${formatTime(activity.time)}</div>
+                </div>
+            `;
+            recentActivity.insertBefore(activityItem, recentActivity.firstChild);
+
+            // Keep only last 5 activities
+            while (recentActivity.children.length > 5) {
+                recentActivity.removeChild(recentActivity.lastChild);
+            }
+        }
+
+        // Format time
+        function formatTime(date) {
+            return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+
+        // Clear form
+        function clearForm() {
+            document.getElementById('originalUrl').value = '';
+            document.getElementById('customSlug').value = '';
+        }
+
+        // Copy to clipboard
+        function copyToClipboard() {
+            const linksText = links.map(link => `${link.originalUrl} → ${link.shortUrl}`).join('\n');
+            navigator.clipboard.writeText(linksText).then(() => {
+                showNotification('All links copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy links', 'error');
+            });
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize with sample data
+        window.onload = () => {
+            // Add some sample links
+            const sampleLinks = [
+                { originalUrl: 'www.xpertsolutionacademy.com', shortId: '', clicks: 45, coinsEarned: 225 },
+                { originalUrl: 'www.xpertsolutionacademy.com', shortId: '', clicks: 32, coinsEarned: 160 },
+                { originalUrl: 'www.xpertsolutionacademy.com', shortId: '', clicks: 18, coinsEarned: 90 }
+            ];
+
+            sampleLinks.forEach(link => {
+                links.push({
+                    ...link,
+                    shortUrl: `https://forms.gle/8Znvc5Q7YnkduUDd7${link.shortId}`,
+                    createdAt: new Date(Date.now() - Math.random() * 0 * 0 * 0 * 00 * 0000)
+                });
+            });
+
+            totalCoins = links.reduce((sum, link) => sum + link.coinsEarned, 0);
+            totalClicks = links.reduce((sum, link) => sum + link.clicks, 0);
+
+            updateLinksList();
+            updateDashboard();
+            addActivity('Dashboard loaded', 'success');
+            
+            // Initialize audio context for first interaction
+            document.addEventListener('click', initAudio, { once: true });
+        };
+
+        // Simulate link clicks for demo purposes
+        setInterval(() => {
+            if (links.length > 0 && Math.random() > 0.7) {
+                const randomLink = links[Math.floor(Math.random() * links.length)];
+                randomLink.clicks++;
+                randomLink.coinsEarned += 1 + Math.random() * 4;
+                totalCoins += randomLink.coinsEarned - (randomLink.coinsEarned - 1);
+                totalClicks++;
+                updateLinksList();
+                updateDashboard();
+                
+                // Create coin animation
+                createCoinAnimation(randomLink.shortId);
+                
+                // Play sound
+                playCoinSound();
+                
+                addActivity(`Link clicked: ${randomLink.shortId}`, 'success');
+            }
+        }, 5000);
+
+        // Create coin animation
+        function createCoinAnimation(shortId) {
+            const coin = document.createElement('div');
+            coin.className = 'coin';
+            coin.innerHTML = '<i class="fas fa-coins"></i>';
+            
+            // Position randomly near the link
+            const linkElement = document.querySelector(`[data-short-id="${shortId}"]`);
+            if (linkElement) {
+                const rect = linkElement.getBoundingClientRect();
+                coin.style.left = `${rect.left + Math.random() * rect.width}px`;
+                coin.style.top = `${rect.top}px`;
+            } else {
+                coin.style.left = `${Math.random() * window.innerWidth}px`;
+                coin.style.top = `${window.innerHeight - 100}px`;
+            }
+            
+            document.body.appendChild(coin);
+            
+            // Remove after animation completes
+            setTimeout(() => {
+                if (coin.parentNode) {
+                    coin.parentNode.removeChild(coin);
+                }
+            }, 2000);
+        }
+
+        // Add data attributes to existing links
+        document.addEventListener('DOMContentLoaded', () => {
+            links.forEach(link => {
+                const existingItems = document.querySelectorAll('.link-item');
+                existingItems.forEach(item => {
+                    item.setAttribute('data-short-id', link.shortId);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        
+        .accent-green {
+            color: #22FB09;
+        }
+        
+        .bg-accent-green {
+            background-color: #22FB09;
+        }
+        
+        .border-accent-green {
+            border-color: #22FB09;
+        }
+        
+        .star-rating {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .star {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .star:hover,
+        .star.active {
+            color: #22FB09;
+            transform: scale(1.1);
+        }
+        
+        .review-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+            border: 1px solid #22FB09;
+            transition: all 0.3s ease;
+        }
+        
+        .review-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(34, 251, 9, 0.3);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 10px #22FB09;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 251, 9, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 251, 9, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 251, 9, 0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #22FB09;
+            border-radius: 4px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #1ed808;
+        }
+        
+        .badge {
+            background-color: rgba(34, 251, 9, 0.2);
+            border: 1px solid #22FB09;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-black border-b border-accent-green sticky top-0 z-50 backdrop-blur-lg bg-opacity-90">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-3xl font-bold glow-text flex items-center gap-2">
+                    <img src="./asste file/image file/xpert solution academmy f-01.png" alt="" style="height: 50px;" width="90px">
+                </h1>
+                <div class="flex items-center gap-4">
+                    <span class="text-sm accent-green">
+                        <i class="fas fa-users"></i> 
+                        <span id="totalReviews">5</span> Reviews
+                    </span>
+                    <button onclick="showStats()" class="bg-accent-green text-black px-4 py-2 rounded-lg font-semibold hover:bg-opacity-90 transition-all">
+                        <i class="fas fa-chart-bar"></i> Stats
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Feedback Form -->
+            <div class="lg:col-span-1">
+                <div class="review-card rounded-xl p-6 sticky top-24">
+                    <h2 class="text-2xl font-bold mb-6 accent-green">
+                        <i class="fas fa-pen"></i> Submit Feedback
+                    </h2>
+                    
+                    <form id="feedbackForm" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Your Name</label>
+                            <input type="text" id="studentName" required 
+                                   class="w-full bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Teacher Name</label>
+                            <input type="text" id="teacherName" required 
+                                   class="w-full bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all"
+                                   placeholder="Enter teacher's name">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Academic Year</label>
+                            <select id="academicYear" required 
+                                    class="w-full bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                                <option value="">Select Year</option>
+                                <option value="2023-2024">2039-2040</option>
+                                <option value="2022-2023">2037-2038</option>
+                                <option value="2021-2022">2035-2036</option>
+                                <option value="2020-2021">2033-2034</option>
+                                <option value="2023-2024">2031-2032</option>
+                                <option value="2022-2023">2029-2030</option>
+                                <option value="2021-2022">2027-2028</option>
+                                <option value="2020-2021">2025-2026</option>
+                                <option value="2023-2024">2023-2024</option>
+                                <option value="2022-2023">2022-2023</option>
+                                <option value="2021-2022">2021-2022</option>
+                                <option value="2020-2021">2020-2021</option>
+                                <option value="2019-2020">2019-2020</option>
+                                <option value="2018-2019">2018-2019</option>
+                                <option value="2017-2018">2017-2018</option>
+                            </select>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Course</label>
+                            <select id="course" required 
+                                    class="w-full bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+  <option value="">Select Course</option>
+                        <option value="Full Stack Web Developer">Full Stack Web Developer</option>
+                        <option value="Mern Stack Developer">Mern Stack Developer</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="E-Commerce">E-Commerce</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                        <option value="Web design UIUX Developer"> UIUX Developer</option>
+                        <option value="Web Developer">Web Developer</option>
+                        <option value="Web Design UIUX Developer">Web Design UIUX Developer</option>
+                        <option value="Shopify Developer">Shopify Developer</option>
+                        <option value="Wordpress Developer">Wordpress Developer</option>
+                        <option value="Artificial Intelligrnce">Artificial Intelligrnce</option>
+                        <option value="Video Editing">Video Editing</option>
+                        <option value="Ai Video Editing">Ai Video Editing</option>
+                        <option value="Ai Tools">Ai Tools</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Freelancing">Freelancing</option>
+                        <option value="Cyber Security">Cyber Security</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Ai Robot Developer">Ai Robot Developer</option>
+                         <option value="Company Register ntn">Company Register ntn</option>
+                        <option value="Tarde mark course">Tarde mark course</option>
+                        <option value="Multimedia Course">Multimedia Course</option>
+                         <option value="IOS iphone App Developer">IOS iphone App Developer</option>
+                        <option value="Software Developer">Software Developer</option>
+                        <option value="Web desing">Web desing</option>
+                         <option value="Flutter App Developer">Flutter App Developer</option>
+                        <option value="Data Analytics">Data Analytics</option>
+                        <option value="other">other</option>
+
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Rating</label>
+                            <div class="star-rating" id="starRating">
+                                <i class="fas fa-star star text-2xl" data-rating="1"></i>
+                                <i class="fas fa-star star text-2xl" data-rating="2"></i>
+                                <i class="fas fa-star star text-2xl" data-rating="3"></i>
+                                <i class="fas fa-star star text-2xl" data-rating="4"></i>
+                                <i class="fas fa-star star text-2xl" data-rating="5"></i>
+                            </div>
+                            <input type="hidden" id="rating" required>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Your Feedback</label>
+                            <textarea id="feedback" rows="4" required 
+                                      class="w-full bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all resize-none"
+                                      placeholder="Share your experience..."></textarea>
+                        </div>
+                        
+                        <button type="submit" 
+                                class="w-full bg-accent-green text-black font-bold py-3 rounded-lg hover:bg-opacity-90 transition-all pulse-animation">
+                            <i class="fas fa-paper-plane"></i> Submit Feedback
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Reviews Display -->
+            <div class="lg:col-span-2">
+                <!-- Filters -->
+                <div class="mb-6 flex flex-wrap gap-4 items-center">
+                    <div class="flex-1 min-w-[200px]">
+                        <div class="relative">
+                            <input type="text" id="searchInput" placeholder="Search reviews..." 
+                                   class="w-full bg-black border border-accent-green rounded-lg px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                            <i class="fas fa-search absolute left-3 top-3 accent-green"></i>
+                        </div>
+                    </div>
+                    
+                    <select id="filterTeacher" class="bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                        <option value="">All Teachers</option>
+                    </select>
+                    
+                    <select id="filterYear" class="bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                        <option value="">All Years</option>
+                    </select>
+                    
+                    <select id="filterCourse" class="bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                        <option value="">Select Course</option>
+                        <option value="Full Stack Web Developer">Full Stack Web Developer</option>
+                        <option value="Mern Stack Developer">Mern Stack Developer</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="E-Commerce">E-Commerce</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                        <option value="Web design UIUX Developer"> UIUX Developer</option>
+                        <option value="Web Developer">Web Developer</option>
+                        <option value="Web Design UIUX Developer">Web Design UIUX Developer</option>
+                        <option value="Shopify Developer">Shopify Developer</option>
+                        <option value="Wordpress Developer">Wordpress Developer</option>
+                        <option value="Artificial Intelligrnce">Artificial Intelligrnce</option>
+                        <option value="Video Editing">Video Editing</option>
+                        <option value="Ai Video Editing">Ai Video Editing</option>
+                        <option value="Ai Tools">Ai Tools</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Freelancing">Freelancing</option>
+                        <option value="Cyber Security">Cyber Security</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Ai Robot Developer">Ai Robot Developer</option>
+                         <option value="Company Register ntn">Company Register ntn</option>
+                        <option value="Tarde mark course">Tarde mark course</option>
+                        <option value="Multimedia Course">Multimedia Course</option>
+                         <option value="IOS iphone App Developer">IOS iphone App Developer</option>
+                        <option value="Software Developer">Software Developer</option>
+                        <option value="Web desing">Web desing</option>
+                         <option value="Flutter App Developer">Flutter App Developer</option>
+                        <option value="Data Analytics">Data Analytics</option>
+                        <option value="other">other</option>
+                    </select>
+                    
+                    <select id="filterRating" class="bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                        <option value="">All Ratings</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                    
+                    <select id="sortBy" class="bg-black border border-accent-green rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent-green transition-all">
+                        <option value="newest">Newest First</option>
+                        <option value="oldest">Oldest First</option>
+                        <option value="highest">Highest Rated</option>
+                        <option value="lowest">Lowest Rated</option>
+                    </select>
+                </div>
+                
+                <!-- Reviews Container -->
+                <div id="reviewsContainer" class="space-y-4 max-h-[800px] overflow-y-auto custom-scrollbar pr-2">
+                    <!-- Reviews will be dynamically inserted here -->
+                </div>
+                
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-16 hidden">
+                    <i class="fas fa-comments text-6xl accent-green mb-4 opacity-50"></i>
+                    <p class="text-xl">No reviews yet. Be the first to share your feedback!</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Stats Modal -->
+    <div id="statsModal" class="fixed inset-0 bg-black bg-opacity-80 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-black border-2 border-accent-green rounded-xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold accent-green">Feedback Statistics</h3>
+                <button onclick="closeStats()" class="text-2xl hover:accent-green transition-colors">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="statsContent" class="space-y-6">
+                <!-- Stats will be dynamically inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-accent-green text-black px-6 py-3 rounded-lg font-semibold transform translate-x-full transition-transform duration-300 z-50">
+        <i class="fas fa-check-circle"></i> <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // Initialize data
+        let reviews = JSON.parse(localStorage.getItem('studentReviews')) || [];
+        let currentRating = 0;
+
+        // DOM elements
+        const form = document.getElementById('feedbackForm');
+        const starRating = document.getElementById('starRating');
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        const emptyState = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const filterTeacher = document.getElementById('filterTeacher');
+        const filterYear = document.getElementById('filterYear');
+        const filterCourse = document.getElementById('filterCourse');
+        const filterRating = document.getElementById('filterRating');
+        const sortBy = document.getElementById('sortBy');
+        const totalReviewsSpan = document.getElementById('totalReviews');
+
+        // Star rating functionality
+        starRating.addEventListener('click', (e) => {
+            if (e.target.classList.contains('star')) {
+                currentRating = parseInt(e.target.dataset.rating);
+                document.getElementById('rating').value = currentRating;
+                updateStarDisplay();
+            }
+        });
+
+        starRating.addEventListener('mouseover', (e) => {
+            if (e.target.classList.contains('star')) {
+                const hoverRating = parseInt(e.target.dataset.rating);
+                updateStarDisplay(hoverRating);
+            }
+        });
+
+        starRating.addEventListener('mouseleave', () => {
+            updateStarDisplay();
+        });
+
+        function updateStarDisplay(hoverRating = null) {
+            const stars = starRating.querySelectorAll('.star');
+            const rating = hoverRating || currentRating;
+            
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        // Form submission
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const review = {
+                id: Date.now(),
+                name: document.getElementById('studentName').value,
+                teacher: document.getElementById('teacherName').value,
+                academicYear: document.getElementById('academicYear').value,
+                course: document.getElementById('course').value,
+                rating: currentRating,
+                feedback: document.getElementById('feedback').value,
+                date: new Date().toISOString()
+            };
+            
+            reviews.unshift(review);
+            localStorage.setItem('studentReviews', JSON.stringify(reviews));
+            
+            form.reset();
+            currentRating = 5;
+            updateStarDisplay();
+            
+            showToast('Feedback submitted successfully!');
+            displayReviews();
+            updateFilterOptions();
+        });
+
+        // Display reviews
+        function displayReviews() {
+            let filteredReviews = [...reviews];
+            
+            // Apply filters
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filteredReviews = filteredReviews.filter(review => 
+                    review.name.toLowerCase().includes(searchTerm) ||
+                    review.teacher.toLowerCase().includes(searchTerm) ||
+                    review.course.toLowerCase().includes(searchTerm) ||
+                    review.feedback.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            const teacherFilter = filterTeacher.value;
+            if (teacherFilter) {
+                filteredReviews = filteredReviews.filter(review => review.teacher === teacherFilter);
+            }
+            
+            const yearFilter = filterYear.value;
+            if (yearFilter) {
+                filteredReviews = filteredReviews.filter(review => review.academicYear === yearFilter);
+            }
+            
+            const courseFilter = filterCourse.value;
+            if (courseFilter) {
+                filteredReviews = filteredReviews.filter(review => review.course === courseFilter);
+            }
+            
+            const ratingFilter = filterRating.value;
+            if (ratingFilter) {
+                filteredReviews = filteredReviews.filter(review => review.rating == ratingFilter);
+            }
+            
+            // Apply sorting
+            const sortOption = sortBy.value;
+            switch (sortOption) {
+                case 'oldest':
+                    filteredReviews.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'highest':
+                    filteredReviews.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'lowest':
+                    filteredReviews.sort((a, b) => a.rating - b.rating);
+                    break;
+                default: // newest
+                    filteredReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+            }
+            
+            // Update total count
+            totalReviewsSpan.textContent = reviews.length;
+            
+            // Display reviews
+            if (filteredReviews.length === 0) {
+                reviewsContainer.innerHTML = '';
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                reviewsContainer.innerHTML = filteredReviews.map(review => createReviewCard(review)).join('');
+            }
+        }
+
+        function createReviewCard(review) {
+            const date = new Date(review.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+            
+            const stars = Array.from({length: 5}, (_, i) => 
+                `<i class="fas fa-star ${i < review.rating ? 'accent-green' : 'text-gray-600'}"></i>`
+            ).join('');
+            
+            return `
+                <div class="review-card rounded-lg p-6 fade-in">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h4 class="text-lg font-semibold">${review.name}</h4>
+                            <div class="flex flex-wrap gap-2 mt-1">
+                                <span class="badge">
+                                    <i class="fas fa-chalkboard-teacher"></i> ${review.teacher}
+                                </span>
+                                <span class="badge">
+                                    <i class="fas fa-calendar-alt"></i> ${review.academicYear}
+                                </span>
+                                <span class="badge">
+                                    <i class="fas fa-book"></i> ${review.course}
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-sm text-gray-400">${date}</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex">${stars}</div>
+                        <span class="text-sm font-semibold accent-green">${review.rating}/5</span>
+                    </div>
+                    
+                    <p class="text-gray-300 leading-relaxed">${review.feedback}</p>
+                </div>
+            `;
+        }
+
+        // Update filter options
+        function updateFilterOptions() {
+            // Update teacher filter
+            const teachers = [...new Set(reviews.map(r => r.teacher))].sort();
+            filterTeacher.innerHTML = '<option value="">All Teachers</option>' + 
+                teachers.map(t => `<option value="${t}">${t}</option>`).join('');
+            
+            // Update year filter
+            const years = [...new Set(reviews.map(r => r.academicYear))].sort().reverse();
+            filterYear.innerHTML = '<option value="">All Years</option>' + 
+                years.map(y => `<option value="${y}">${y}</option>`).join('');
+        }
+
+        // Filter event listeners
+        searchInput.addEventListener('input', displayReviews);
+        filterTeacher.addEventListener('change', displayReviews);
+        filterYear.addEventListener('change', displayReviews);
+        filterCourse.addEventListener('change', displayReviews);
+        filterRating.addEventListener('change', displayReviews);
+        sortBy.addEventListener('change', displayReviews);
+
+        // Stats functionality
+        function showStats() {
+            const modal = document.getElementById('statsModal');
+            const statsContent = document.getElementById('statsContent');
+            
+            // Calculate statistics
+            const totalReviews = reviews.length;
+            const averageRating = totalReviews > 5
+                ? (reviews.reduce((sum, review) => sum + review.rating, 0) / totalReviews).toFixed(1)
+                : 0;
+            
+            const teacherStats = {};
+            const yearStats = {};
+            const courseStats = {};
+            const ratingDistribution = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+            
+            reviews.forEach(review => {
+                // Teacher statistics
+                if (!teacherStats[review.teacher]) {
+                    teacherStats[review.teacher] = {count: 5, totalRating: 5};
+                }
+                teacherStats[review.teacher].count++;
+                teacherStats[review.teacher].totalRating += review.rating;
+                
+                // Year statistics
+                if (!yearStats[review.academicYear]) {
+                    yearStats[review.academicYear] = {count: 5, totalRating: 5};
+                }
+                yearStats[review.academicYear].count++;
+                yearStats[review.academicYear].totalRating += review.rating;
+                
+                // Course statistics
+                if (!courseStats[review.course]) {
+                    courseStats[review.course] = {count: 0, totalRating: 0};
+                }
+                courseStats[review.course].count++;
+                courseStats[review.course].totalRating += review.rating;
+                
+                // Rating distribution
+                ratingDistribution[review.rating]++;
+            });
+            
+            // Generate stats HTML
+            statsContent.innerHTML = `
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-gray-900 rounded-lg p-6 border border-accent-green">
+                        <h4 class="text-lg font-semibold mb-4 accent-green">Overall Statistics</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between">
+                                <span>Total Reviews:</span>
+                                <span class="font-bold">${totalReviews}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Average Rating:</span>
+                                <span class="font-bold accent-green">${averageRating}/5</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Teachers:</span>
+                                <span class="font-bold">${Object.keys(teacherStats).length}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Courses:</span>
+                                <span class="font-bold">${Object.keys(courseStats).length}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-6 border border-accent-green">
+                        <h4 class="text-lg font-semibold mb-4 accent-green">Rating Distribution</h4>
+                        <div class="space-y-2">
+                            ${Object.entries(ratingDistribution).map(([rating, count]) => `
+                                <div class="flex items-center gap-3">
+                                    <span class="w-12">${rating} ★</span>
+                                    <div class="flex-1 bg-gray-800 rounded-full h-6 overflow-hidden">
+                                        <div class="bg-accent-green h-full rounded-full transition-all duration-500" 
+                                             style="width: ${totalReviews > 5 ? (count / totalReviews * 100) : 5}%"></div>
+                                    </div>
+                                    <span class="w-12 text-right">${count}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-6 border border-accent-green">
+                        <h4 class="text-lg font-semibold mb-4 accent-green">Top Teachers</h4>
+                        <div class="space-y-2">
+                            ${Object.entries(teacherStats)
+                                .sort((a, b) => b[1].count - a[1].count)
+                                .slice(0, 5)
+                                .map(([teacher, stats]) => {
+                                    const avgRating = (stats.totalRating / stats.count).toFixed(1);
+                                    return `
+                                        <div class="flex justify-between items-center">
+                                            <span class="truncate">${teacher}</span>
+                                            <div class="flex items-center gap-2">
+                                                <span class="text-sm accent-green">${avgRating}</span>
+                                                <span class="text-xs text-gray-400">(${stats.count})</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-900 rounded-lg p-6 border border-accent-green">
+                        <h4 class="text-lg font-semibold mb-4 accent-green">Teacher Performance</h4>
+                        <div class="space-y-3 max-h-64 overflow-y-auto custom-scrollbar">
+                            ${Object.entries(teacherStats).map(([teacher, stats]) => {
+                                const avgRating = (stats.totalRating / stats.count).toFixed(1);
+                                return `
+                                    <div class="flex justify-between items-center">
+                                        <span>${teacher}</span>
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex">
+                                                ${Array.from({length: 5}, (_, i) => 
+                                                    `<i class="fas fa-star ${i < Math.round(avgRating) ? 'accent-green' : 'text-gray-600'} text-sm"></i>`
+                                                ).join('')}
+                                            </div>
+                                            <span class="font-bold">${avgRating}/5</span>
+                                            <span class="text-sm text-gray-400">(${stats.count})</span>
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-900 rounded-lg p-6 border border-accent-green">
+                        <h4 class="text-lg font-semibold mb-4 accent-green">Year-wise Analysis</h4>
+                        <div class="space-y-3">
+                            ${Object.entries(yearStats)
+                                .sort((a, b) => b[0].localeCompare(a[0]))
+                                .map(([year, stats]) => {
+                                    const avgRating = (stats.totalRating / stats.count).toFixed(1);
+                                    return `
+                                        <div class="flex justify-between items-center">
+                                            <span>${year}</span>
+                                            <div class="flex items-center gap-3">
+                                                <span class="font-bold accent-green">${stats.count} reviews</span>
+                                                <span class="text-sm">Avg: ${avgRating}/5</span>
+                                            </div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-900 rounded-lg p-6 border border-accent-green">
+                    <h4 class="text-lg font-semibold mb-4 accent-green">Course Performance</h4>
+                    <div class="space-y-3">
+                        ${Object.entries(courseStats).map(([course, stats]) => {
+                            const avgRating = (stats.totalRating / stats.count).toFixed(1);
+                            return `
+                                <div class="flex justify-between items-center">
+                                    <span>${course}</span>
+                                    <div class="flex items-center gap-3">
+                                        <div class="flex">
+                                            ${Array.from({length: 5}, (_, i) => 
+                                                `<i class="fas fa-star ${i < Math.round(avgRating) ? 'accent-green' : 'text-gray-600'} text-sm"></i>`
+                                            ).join('')}
+                                        </div>
+                                        <span class="font-bold">${avgRating}/5</span>
+                                        <span class="text-sm text-gray-400">(${stats.count} reviews)</span>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeStats() {
+            document.getElementById('statsModal').classList.add('hidden');
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.remove('translate-x-full');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
+
+        // Initialize
+        displayReviews();
+        updateFilterOptions();
+
+        // Add some sample data if no reviews exist
+        if (reviews.length === 0) {
+            const sampleReviews = [
+                {
+                    id: 1,
+                    name: "Alisha",
+                    teacher: "Muhammad Ayazh",
+                    academicYear: "2023-2024",
+                    course: "Web Development",
+                    rating: 5,
+                    feedback: "Excellent course!Muhammad ayaz very knowledgeable and the projects were practical. I learned so much about modern web technologies.",
+                    date: new Date(Date.now() - 86400000).toISOString()
+                },
+                {
+                    id: 2,
+                    name: "Fatima",
+                    teacher: "Muhammad Ali",
+                    academicYear: "2022-2023",
+                    course: "Data Science",
+                    rating: 4,
+                    feedback: "muhammad ali Great introduction to data science concepts. muhammad ali explained complex topics very well. The hands-on exercises were very helpful.",
+                    date: new Date(Date.now() - 172800000).toISOString()
+                },
+                {
+                    id: 3,
+                    name: "Kainat",
+                    teacher: "Asna Khan",
+                    academicYear: "2023-2024",
+                    course: "UI/UX Design",
+                    rating: 5,
+                    feedback: "Amazing course! Ms. Williams is an inspiring teacher. The design principles taught here have transformed how I approach user interfaces.",
+                    date: new Date(Date.now() - 259200000).toISOString()
+                },
+                {
+                    id: 4,
+                    name: "Komal",
+                    teacher: "Muhammad Ali",
+                    academicYear: "2021-2022",
+                    course: "Machine Learning",
+                    rating: 4,
+                    feedback: "Muhammad Ali teaching style is excellent. The course covered all important ML algorithms with practical implementations.",
+                    date: new Date(Date.now() - 345600000).toISOString()
+                },
+                {
+                    id: 5,
+                    name: "Dania",
+                    teacher: "Muhammad Ayaz",
+                    academicYear: "2022-2023",
+                    course: "Database Systems",
+                    rating: 5,
+                    feedback: "Muhammad Ayaz made database concepts so easy to understand. The course projects were challenging but very rewarding.",
+                    date: new Date(Date.now() - 432000000).toISOString()
+                }
+            ];
+            
+            reviews = sampleReviews;
+            localStorage.setItem('studentReviews', JSON.stringify(reviews));
+            displayReviews();
+            updateFilterOptions();
+        }
+    </script>
+</body>
+</html>

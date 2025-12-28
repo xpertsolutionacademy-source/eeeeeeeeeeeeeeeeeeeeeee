@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./asste file/image file/xpert solution academmy f-01.png">
+    <title>Student ID Card</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .form-section {
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 30px rgba(4, 243, 4, 0.3);
+        }
+
+        .form-section h1 {
+            color: #00ff00;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #00ff00;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            background: #1a1a1a;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .form-group input::placeholder {
+            color: #666;
+        }
+
+        .photo-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .photo-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .photo-upload-label {
+            display: block;
+            padding: 20px;
+            background: #000000;
+            border: 2px dashed #00ff00;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .photo-upload:hover .photo-upload-label {
+            background: #000000;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            border: none;
+            border-radius: 8px;
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.5);
+        }
+
+        .card-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cards-container {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .id-card {
+            width: 400px;
+            height: 250px;
+            background: linear-gradient(135deg, #000000 0%, #0d0d0d 100%);
+            border: 3px solid #00ff00;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
+        }
+
+        .id-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .school-logo {
+            width: 60px;
+            height: 60px;
+            background: #00ff00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000000;
+            font-size: 24px;
+        }
+
+        .card-title {
+            color: #00ff00;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .card-content {
+            display: flex;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .student-photo {
+            width: 100px;
+            height: 120px;
+            background: #000000;
+            border: 2px solid #00ff00;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .student-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .student-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .info-label {
+            color: #00ff00;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            width: 60px;
+            margin-right: 10px;
+        }
+
+        .info-value {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .validity {
+            color: #00ff00;
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+
+        /* Back Card Styles */
+        .back-card {
+            width: 400px;
+            height: 250px;
+            background: linear-gradient(135deg, #000000 0%, #0d0d0d 100%);
+            border: 3px solid #00ff00;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 0, 0.5);
+        }
+
+        .back-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        .back-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-content {
+            position: relative;
+            z-index: 1;
+            height: calc(100% - 80px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .terms-section {
+            font-size: 10px;
+            line-height: 1.4;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .terms-section h3 {
+            color: #00ff00;
+            font-size: 12px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .contact-section {
+            font-size: 10px;
+            line-height: 1.4;
+        }
+
+        .contact-section h3 {
+            color: #00ff00;
+            font-size: 12px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .back-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .download-section {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .download-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            border: none;
+            border-radius: 8px;
+            color: #000;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 0, 0.5);
+        }
+
+        .download-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .google-btn {
+            background: linear-gradient(135deg, #2aff16 0%, #34a853 100%);
+            color: #fff;
+        }
+
+        .google-btn:hover {
+            box-shadow: 0 10px 30px rgba(0, 255, 4, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .id-card, .back-card {
+                width: 100%;
+                max-width: 400px;
+            }
+
+            .cards-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: #00ff00;
+            color: #000000;
+            border-radius: 8px;
+            font-weight: bold;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .card-label {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.2);
+            color: #00ff00;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #000000 0%, #000000 100%);
+            border: 2px solid #00ff00;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
+        }
+
+        .modal h2 {
+            color: #00ff00;
+            margin-bottom: 20px;
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn-primary {
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 100%);
+            color: #000;
+        }
+
+        .modal-btn-secondary {
+            background: #000000;
+            color: #fff;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #00ff00;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-section">
+            <h1>ID Card Generator</h1>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName" placeholder="Enter full name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentId">Student ID</label>
+                    <input type="text" id="studentId" placeholder="e.g., STU2024001" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Course</label>
+                    <select id="department" required>
+                        <option value="">Select Course</option>
+                        <option value="Full Stack Web Developer">Full Stack Web Developer</option>
+                        <option value="Mern Stack Developer">Mern Stack Developer</option>
+                        <option value="Digital Marketing">Digital Marketing</option>
+                        <option value="E-Commerce">E-Commerce</option>
+                        <option value="Graphic Design">Graphic Design</option>
+                        <option value="Web design UIUX Developer"> UIUX Developer</option>
+                        <option value="Web Developer">Web Developer</option>
+                        <option value="Web Design UIUX Developer">Web Design UIUX Developer</option>
+                        <option value="Shopify Developer">Shopify Developer</option>
+                        <option value="Wordpress Developer">Wordpress Developer</option>
+                        <option value="Artificial Intelligrnce">Artificial Intelligrnce</option>
+                        <option value="Video Editing">Video Editing</option>
+                        <option value="Ai Video Editing">Ai Video Editing</option>
+                        <option value="Ai Tools">Ai Tools</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Freelancing">Freelancing</option>
+                        <option value="Cyber Security">Cyber Security</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Ai Robot Developer">Ai Robot Developer</option>
+                         <option value="Company Register ntn">Company Register ntn</option>
+                        <option value="Tarde mark course">Tarde mark course</option>
+                        <option value="Multimedia Course">Multimedia Course</option>
+                         <option value="IOS iphone App Developer">IOS iphone App Developer</option>
+                        <option value="Software Developer">Software Developer</option>
+                        <option value="Web desing">Web desing</option>
+                         <option value="Flutter App Developer">Flutter App Developer</option>
+                        <option value="Data Analytics">Data Analytics</option>
+                        <option value="other">other</option>
+
+
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="year">Year/Grade</label>
+                    <select id="year" required>
+                        <option value="">Select Year</option>
+                        <option value="2K25">2K25</option>
+                        <option value="2K26">2K26</option>
+                        <option value="2K27">2K27</option>
+                        <option value="2K28">2K28</option>
+                        <option value="2K29">2K29</option>
+                        <option value="2K30">2K30</option>
+                        <option value="2K31">2K31</option>
+                        <option value="2K32">2K32</option>
+                        <option value="2K33">2K33</option>
+                        <option value="2K34">2K34</option>
+                        <option value="2K35">2K35</option>
+                        <option value="2K36">2K36</option>
+                        <option value="2K37">2K37</option>
+                        <option value="2K38">2K38</option>
+                        <option value="2K39">2K39</option>
+                        <option value="2K40">2K40</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="validity">Valid Until</label>
+                    <input type="date" id="validity" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Student Photo</label>
+                    <div class="photo-upload">
+                        <input type="file" id="photoUpload" accept="image/*">
+                        <label for="photoUpload" class="photo-upload-label">
+                            📷 Click to upload photo
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="generate-btn">Generate ID Card</button>
+            </form>
+        </div>
+
+        <div class="card-section">
+            <div class="cards-container">
+                <div class="id-card" id="idCardFront">
+                    <div class="card-header">
+                        <div> <img src="./asste file/image file/xpert solution academmy f-01.png" alt="" style="width: 90px;" height="50px">  </div>
+                        <div class="card-title">Student ID Card</div>
+                    </div>
+                    
+                    <div class="card-content">
+                        <div class="student-photo" id="studentPhoto">
+                            <span>No Photo</span>
+                        </div>
+                        
+                        <div class="student-info">
+                            <div class="info-row">
+                                <span class="info-label">Name:</span>
+                                <span class="info-value" id="cardName">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">ID:</span>
+                                <span class="info-value" id="cardId">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Course:</span>
+                                <span class="info-value" id="cardDept">-</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Year:</span>
+                                <span class="info-value" id="cardYear">-</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <div class="validity" id="cardValidity">Valid Until: -</div>
+                        <div class="qrcode" id="qrcodeFront"></div>
+                    </div>
+                </div>
+
+                <div class="back-card" id="idCardBack">
+                    <div class="back-header">
+                         <div> <img src="./asste file/image file/xpert solution academmy f-01.png" alt="" style="width: 90px;" height="50px">  </div>
+                        <div class="card-title">Terms & Conditions</div>
+                    </div>
+                    
+                    <div class="back-content">
+                        <div class="terms-section">
+                            <h3>Terms of Use</h3>
+                            <p>This ID card is the property of Xpert Solution Academy. It must be carried at all times while on campus. Misuse, alteration, or duplication is prohibited. Report loss immediately to campus security.</p>
+                        </div>
+                        
+                        <div class="contact-section">
+                            <h3>Emergency Contacts</h3>
+                            <p><strong>Campus Security:</strong> 0319-8305-366<br>
+                            <strong>Administration:</strong> 0328-899-4311</p>
+                        </div>
+                    </div>
+                    
+                    <div class="back-footer">
+                        <div class="validity" id="backCardId">ID: -</div>
+                        <div class="qrcode" id="qrcodeBack"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="download-section">
+                <button class="download-btn" id="downloadFrontBtn" disabled>Download Front</button>
+                <button class="download-btn" id="downloadBackBtn" disabled>Download Back</button>
+                <button class="download-btn" id="downloadBothBtn" disabled>Download Both Sides</button>
+                <!-- <button class="download-btn google-btn" id="googleDriveBtn" disabled>Save to Google Drive</button> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <!-- Modal for Google Drive authentication -->
+    <div class="modal" id="googleModal">
+        <div class="modal-content">
+            <h2>Save to Google Drive</h2>
+            <p>You'll be redirected to Google to sign in and authorize this application to save files to your Google Drive.</p>
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-primary" id="authorizeBtn">Continue to Google</button>
+                <button class="modal-btn modal-btn-secondary" id="cancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let qrCodeFront = null;
+        let qrCodeBack = null;
+        let accessToken = null;
+        let frontImageData = null;
+        let backImageData = null;
+
+        // Google API configuration
+        const API_KEY = 'YOUR_API_KEY'; // Replace with your Google API key
+        const CLIENT_ID = 'YOUR_CLIENT_ID'; // Replace with your Google client ID
+        const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
+        // Set default validity date to 1 year from now
+        document.getElementById('validity').valueAsDate = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+
+        // Handle photo upload
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const photoContainer = document.getElementById('studentPhoto');
+                    photoContainer.innerHTML = `<img src="${e.target.result}" alt="Student Photo">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle form submission
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('studentName').value;
+            const id = document.getElementById('studentId').value;
+            const department = document.getElementById('department').value;
+            const year = document.getElementById('year').value;
+            const validity = document.getElementById('validity').value;
+            
+            // Update front card
+            document.getElementById('cardName').textContent = name;
+            document.getElementById('cardId').textContent = id;
+            document.getElementById('cardDept').textContent = department;
+            document.getElementById('cardYear').textContent = year;
+            document.getElementById('cardValidity').textContent = `Valid Until: ${new Date(validity).toLocaleDateString()}`;
+            
+            // Update back card
+            document.getElementById('backCardId').textContent = `ID: ${id}`;
+            
+            // Generate QR codes
+            const qrData = `ID:${id}|NAME:${name}|DEPT:${department}`;
+            
+            // Front QR code
+            const qrFrontContainer = document.getElementById('qrcodeFront');
+            qrFrontContainer.innerHTML = '';
+            qrCodeFront = new QRCode(qrFrontContainer, {
+                text: qrData,
+                width: 20,
+                height: 20,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Back QR code
+            const qrBackContainer = document.getElementById('qrcodeBack');
+            qrBackContainer.innerHTML = '';
+            qrCodeBack = new QRCode(qrBackContainer, {
+                text: qrData,
+                width: 20,
+                height: 20,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Enable download buttons
+            document.getElementById('downloadFrontBtn').disabled = false;
+            document.getElementById('downloadBackBtn').disabled = false;
+            document.getElementById('downloadBothBtn').disabled = false;
+            document.getElementById('googleDriveBtn').disabled = false;
+            
+            // Show notification
+            showNotification('ID Card Generated Successfully!');
+        });
+
+        // Download front side
+        document.getElementById('downloadFrontBtn').addEventListener('click', function() {
+            downloadCard('idCardFront', 'front');
+        });
+
+        // Download back side
+        document.getElementById('downloadBackBtn').addEventListener('click', function() {
+            downloadCard('idCardBack', 'back');
+        });
+
+        // Download both sides
+        document.getElementById('downloadBothBtn').addEventListener('click', function() {
+            downloadCard('idCardFront', 'front');
+            setTimeout(() => {
+                downloadCard('idCardBack', 'back');
+            }, 500);
+        });
+
+        // Save to Google Drive
+        document.getElementById('googleDriveBtn').addEventListener('click', function() {
+            // Generate both card images first
+            generateCardImages().then(() => {
+                // Show modal for Google authentication
+                document.getElementById('googleModal').style.display = 'flex';
+            });
+        });
+
+        // Modal buttons
+        document.getElementById('authorizeBtn').addEventListener('click', function() {
+            document.getElementById('googleModal').style.display = 'none';
+            // Load Google API and authenticate
+            loadGoogleAPI();
+        });
+
+        document.getElementById('cancelBtn').addEventListener('click', function() {
+            document.getElementById('googleModal').style.display = 'none';
+        });
+
+        // Generate card images
+        function generateCardImages() {
+            return new Promise((resolve) => {
+                // Generate front card image
+                html2canvas(document.getElementById('idCardFront'), {
+                    backgroundColor: null,
+                    scale: 2,
+                    logging: false
+                }).then(canvas => {
+                    frontImageData = canvas.toDataURL('image/png');
+                    
+                    // Generate back card image
+                    html2canvas(document.getElementById('idCardBack'), {
+                        backgroundColor: null,
+                        scale: 2,
+                        logging: false
+                    }).then(canvas => {
+                        backImageData = canvas.toDataURL('image/png');
+                        resolve();
+                    });
+                });
+            });
+        }
+
+        // Load Google API
+        function loadGoogleAPI() {
+            showNotification('Loading Google API...');
+            
+            // Load the Google API client
+            gapi.load('client:auth2', function() {
+                gapi.client.init({
+                    apiKey: API_KEY,
+                    clientId: CLIENT_ID,
+                    discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+                    scope: SCOPES
+                }).then(function() {
+                    // Listen for sign-in state changes
+                    gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+                    
+                    // Handle the initial sign-in state
+                    updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+                }, function(error) {
+                    showNotification('Error loading Google API: ' + error.error);
+                });
+            });
+        }
+
+        // Update sign-in status
+        function updateSigninStatus(isSignedIn) {
+            if (isSignedIn) {
+                // User is signed in, get access token
+                accessToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
+                saveToGoogleDrive();
+            } else {
+                // User is not signed in, prompt to sign in
+                gapi.auth2.getAuthInstance().signIn();
+            }
+        }
+
+        // Save files to Google Drive
+        function saveToGoogleDrive() {
+            if (!accessToken) {
+                showNotification('Authentication required');
+                return;
+            }
+            
+            showNotification('Saving to Google Drive...');
+            
+            const studentId = document.getElementById('studentId').value;
+            const folderName = `Student ID Cards - ${studentId}`;
+            
+            // Create a folder for the student
+            createFolder(folderName).then(folderId => {
+                // Save front card
+                saveFileToDrive(frontImageData, `${studentId}-ID-Front.png`, folderId)
+                    .then(() => {
+                        // Save back card
+                        return saveFileToDrive(backImageData, `${studentId}-ID-Back.png`, folderId);
+                    })
+                    .then(() => {
+                        showNotification('ID cards saved to Google Drive successfully!');
+                    })
+                    .catch(error => {
+                        showNotification('Error saving to Google Drive: ' + error.message);
+                    });
+            }).catch(error => {
+                showNotification('Error creating folder: ' + error.message);
+            });
+        }
+
+        // Create a folder in Google Drive
+        function createFolder(folderName) {
+            return new Promise((resolve, reject) => {
+                const folderMetadata = {
+                    name: folderName,
+                    mimeType: 'application/vnd.google-apps.folder'
+                };
+                
+                gapi.client.drive.files.create({
+                    resource: folderMetadata,
+                    fields: 'id'
+                }).then(function(response) {
+                    resolve(response.result.id);
+                }, function(error) {
+                    reject(error);
+                });
+            });
+        }
+
+        // Save a file to Google Drive
+        function saveFileToDrive(dataUrl, fileName, folderId) {
+            return new Promise((resolve, reject) => {
+                // Convert data URL to blob
+                const byteString = atob(dataUrl.split(',')[1]);
+                const mimeString = dataUrl.split(',')[0].split(':')[1].split(';')[0];
+                const ab = new ArrayBuffer(byteString.length);
+                const ia = new Uint8Array(ab);
+                
+                for (let i = 0; i < byteString.length; i++) {
+                    ia[i] = byteString.charCodeAt(i);
+                }
+                
+                const blob = new Blob([ab], { type: mimeString });
+                
+                const fileMetadata = {
+                    name: fileName,
+                    parents: [folderId]
+                };
+                
+                const form = new FormData();
+                form.append('metadata', new Blob([JSON.stringify(fileMetadata)], { type: 'application/json' }));
+                form.append('file', blob);
+                
+                fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart', {
+                    method: 'POST',
+                    headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
+                    body: form
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                }).then(result => {
+                    resolve(result);
+                }).catch(error => {
+                    reject(error);
+                });
+            });
+        }
+
+        // Download card function
+        function downloadCard(cardId, side) {
+            const card = document.getElementById(cardId);
+            const studentId = document.getElementById('studentId').value;
+            
+            html2canvas(card, {
+                backgroundColor: null,
+                scale: 2,
+                logging: false
+            }).then(canvas => {
+                // Create download link
+                const link = document.createElement('a');
+                link.download = `student-id-${studentId}-${side}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+                
+                showNotification(`${side.charAt(0).toUpperCase() + side.slice(1)} side downloaded!`);
+            });
+        }
+
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Add input animations
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

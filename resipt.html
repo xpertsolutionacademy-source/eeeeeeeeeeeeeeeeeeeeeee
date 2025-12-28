@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Fee Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #22FB09;
+            --dark-bg: #000000;
+            --card-bg: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .bg-card {
+            background-color: var(--card-bg);
+        }
+
+        .text-green {
+            color: var(--primary-green);
+        }
+
+        .border-green {
+            border-color: var(--primary-green);
+        }
+
+        .bg-green {
+            background-color: var(--primary-green);
+        }
+
+        .hover-bg-green:hover {
+            background-color: var(--primary-green);
+            color: var(--dark-bg);
+        }
+
+        .input-field {
+            background-color: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            color: var(--text-primary);
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(34, 251, 9, 0.1);
+        }
+
+        .receipt-print {
+            background: white;
+            color: black;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .pulse-green {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 251, 9, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 251, 9, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 251, 9, 0);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Navigation -->
+    <nav class="bg-card border-b border-gray-800 sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-4">
+                       <img src="./asste file/image file/xpert solution academmy f-01.png" alt="" style="height: 50px;" width="90px">
+                </div>
+                <div class="flex items-center space-x-6">
+                    <button onclick="showSection('dashboard')" class="nav-btn hover:text-green transition">
+                        <i class="fas fa-home mr-2"></i>Dashboard
+                    </button>
+                    <button onclick="showSection('fees')" class="nav-btn hover:text-green transition">
+                        <i class="fas fa-file-invoice-dollar mr-2"></i>Fees
+                    </button>
+                    <button onclick="showSection('payment')" class="nav-btn hover:text-green transition">
+                        <i class="fas fa-credit-card mr-2"></i>Payment
+                    </button>
+                    <button onclick="showSection('receipts')" class="nav-btn hover:text-green transition">
+                        <i class="fas fa-receipt mr-2"></i>Receipts
+                    </button>
+                    <button onclick="logout()" class="text-red-400 hover:text-red-300 transition">
+                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Section -->
+    <div id="loginSection" class="min-h-screen flex items-center justify-center">
+        <div class="bg-card p-8 rounded-lg shadow-2xl w-full max-w-md">
+            <div class="text-center mb-8">
+                <i class="fas fa-graduation-cap text-green text-5xl mb-4"></i>
+                <h2 class="text-2xl font-bold">Student Fee Portal</h2>
+                <p class="text-gray-400 mt-2">Login to access your fee dashboard</p>
+            </div>
+            <form onsubmit="login(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium mb-2">Student ID</label>
+                    <input type="text" id="loginId" required class="input-field w-full px-4 py-2 rounded-lg" placeholder="Enter your Student ID">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium mb-2">Password</label>
+                    <input type="password" id="loginPassword" required class="input-field w-full px-4 py-2 rounded-lg" placeholder="Enter your password">
+                </div>
+                <button type="submit" class="w-full bg-green text-black font-bold py-3 rounded-lg hover:bg-green/90 transition pulse-green">
+                    Login
+                </button>
+            </form>
+            <p class="text-center text-gray-400 mt-4">
+                Demo Credentials: ID: STU001, Password: demo123
+            </p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="mainContent" class="hidden">
+        <!-- Dashboard Section -->
+        <section id="dashboardSection" class="container mx-auto px-4 py-8">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold mb-2">Welcome, <span id="studentName" class="text-green"></span></h2>
+                <p class="text-gray-400">Student ID: <span id="studentId"></span></p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="bg-card p-6 rounded-lg border border-gray-800 hover:border-green transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Total Due</p>
+                            <p class="text-2xl font-bold text-red-400" id="totalDue">$0</p>
+                        </div>
+                        <i class="fas fa-exclamation-circle text-red-400 text-3xl"></i>
+                    </div>
+                </div>
+                <div class="bg-card p-6 rounded-lg border border-gray-800 hover:border-green transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Paid This Month</p>
+                            <p class="text-2xl font-bold text-green" id="paidThisMonth">$0</p>
+                        </div>
+                        <i class="fas fa-check-circle text-green text-3xl"></i>
+                    </div>
+                </div>
+                <div class="bg-card p-6 rounded-lg border border-gray-800 hover:border-green transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Next Due Date</p>
+                            <p class="text-lg font-bold" id="nextDueDate">-</p>
+                        </div>
+                        <i class="fas fa-calendar-alt text-green text-3xl"></i>
+                    </div>
+                </div>
+                <div class="bg-card p-6 rounded-lg border border-gray-800 hover:border-green transition">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-400 text-sm">Payment Status</p>
+                            <p class="text-lg font-bold" id="paymentStatus">-</p>
+                        </div>
+                        <i class="fas fa-info-circle text-green text-3xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Payments -->
+            <div class="bg-card p-6 rounded-lg">
+                <h3 class="text-xl font-bold mb-4">Recent Payments</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b border-gray-800">
+                                <th class="text-left py-3 px-4">Date</th>
+                                <th class="text-left py-3 px-4">Month</th>
+                                <th class="text-left py-3 px-4">Amount</th>
+                                <th class="text-left py-3 px-4">Status</th>
+                                <th class="text-left py-3 px-4">Receipt</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentPayments">
+                            <!-- Dynamic content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fees Section -->
+        <section id="feesSection" class="container mx-auto px-4 py-8 hidden">
+            <h2 class="text-3xl font-bold mb-6">Fee Structure</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Fee Details -->
+                <div class="bg-card p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4">Monthly Fee Breakdown</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between py-2 border-b border-gray-800">
+                            <span>Maintence Fee</span>
+                            <span class="font-bold">1500</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Generate Fee Slip -->
+                <div class="bg-card p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4">Generate Fee Slip</h3>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium mb-2">Select Month</label>
+                        <select id="feeMonth" class="input-field w-full px-4 py-2 rounded-lg">
+                            <option value="">Select Month</option>
+                            <option value="January">January</option>
+                            <option value="February">February</option>
+                            <option value="March">March</option>
+                            <option value="April">April</option>
+                            <option value="May">May</option>
+                            <option value="June">June</option>
+                            <option value="July">July</option>
+                            <option value="August">August</option>
+                            <option value="September">September</option>
+                            <option value="October">October</option>
+                            <option value="November">November</option>
+                            <option value="December">December</option>
+                        </select>
+                    </div>
+                    <button onclick="generateFeeSlip()" class="w-full bg-green text-black font-bold py-3 rounded-lg hover:bg-green/90 transition">
+                        <i class="fas fa-file-invoice mr-2"></i>Generate Fee Slip
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fee Slip Display -->
+            <div id="feeSlipDisplay" class="mt-6 bg-card p-6 rounded-lg hidden">
+                <h3 class="text-xl font-bold mb-4">Fee Slip</h3>
+                <div id="feeSlipContent" class="bg-gray-900 p-6 rounded-lg">
+                    <!-- Dynamic fee slip content -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Payment Section -->
+        <section id="paymentSection" class="container mx-auto px-4 py-8 hidden">
+            <h2 class="text-3xl font-bold mb-6">Make Payment</h2>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-card p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-4">Payment Details</h3>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Select Month to Pay</label>
+                        <select id="paymentMonth" class="input-field w-full px-4 py-2 rounded-lg mb-4">
+                            <option value="">Select Month</option>
+                        </select>
+                        
+                        <div class="bg-gray-900 p-4 rounded-lg mb-4">
+                            <div class="flex justify-between items-center">
+                                <span>Amount to Pay:</span>
+                                <span class="text-2xl font-bold text-green" id="paymentAmount">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <h4 class="text-lg font-semibold mb-3">Payment Method</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button onclick="selectPaymentMethod('card')" class="payment-method p-4 border-2 border-gray-700 rounded-lg hover:border-green transition">
+                                <i class="fas fa-credit-card text-2xl mb-2"></i>
+                                <p>Credit/Debit Card</p>
+                            </button>
+                            <button onclick="selectPaymentMethod('upi')" class="payment-method p-4 border-2 border-gray-700 rounded-lg hover:border-green transition">
+                                <i class="fas fa-mobile-alt text-2xl mb-2"></i>
+                                <p>UPI Payment</p>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="paymentForm" class="hidden">
+                        <!-- Card Payment Form -->
+                        <div id="cardForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Card Number</label>
+                                <input type="text" placeholder="1234 5678 9012 3456" class="input-field w-full px-4 py-2 rounded-lg">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">Expiry Date</label>
+                                    <input type="text" placeholder="MM/YY" class="input-field w-full px-4 py-2 rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium mb-2">CVV</label>
+                                    <input type="text" placeholder="123" class="input-field w-full px-4 py-2 rounded-lg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- UPI Payment Form -->
+                        <div id="upiForm" class="space-y-4 hidden">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">UPI ID</label>
+                                <input type="text" placeholder="your@upi" class="input-field w-full px-4 py-2 rounded-lg">
+                            </div>
+                        </div>
+
+                        <button onclick="processPayment()" class="w-full bg-green text-black font-bold py-3 rounded-lg hover:bg-green/90 transition mt-6">
+                            <i class="fas fa-lock mr-2"></i>Pay Securely
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Receipts Section -->
+        <section id="receiptsSection" class="container mx-auto px-4 py-8 hidden">
+            <h2 class="text-3xl font-bold mb-6">Payment Receipts</h2>
+            
+            <div class="bg-card p-6 rounded-lg">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold">All Receipts</h3>
+                    <button onclick="downloadAllReceipts()" class="bg-green text-black px-4 py-2 rounded-lg hover:bg-green/90 transition">
+                        <i class="fas fa-download mr-2"></i>Download All
+                    </button>
+                </div>
+                
+                <div id="receiptsList" class="space-y-4">
+                    <!-- Dynamic receipts list -->
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Receipt Modal -->
+    <div id="receiptModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white receipt-print max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-lg">
+            <div class="p-8">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-bold text-black">Payment Receipt</h2>
+                    <p class="text-gray-600">FeeMaster Pro - Student Fee Management System</p>
+                </div>
+                <div id="receiptContent">
+                    <!-- Dynamic receipt content -->
+                </div>
+                <div class="flex justify-center mt-6 space-x-4">
+                    <button onclick="printReceipt()" class="bg-green text-white px-6 py-2 rounded-lg hover:bg-green/90 transition">
+                        <i class="fas fa-print mr-2"></i>Print
+                    </button>
+                    <button onclick="downloadReceipt()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                        <i class="fas fa-download mr-2"></i>Download
+                    </button>
+                    <button onclick="closeReceiptModal()" class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample student data
+        const students = {
+            'STU001': {
+                id: 'STU001',
+                name: 'Welcome Students',
+                password: 'demo123',
+                fees: {
+                    monthly: 700,
+                    breakdown: {
+                        tuition: 500,
+                        lab: 100,
+                        library: 50,
+                        sports: 50
+                    }
+                },
+                payments: [
+                    { month: 'January', amount: 1500, date: '2024-01-15', status: 'Paid', receiptId: 'REC001' },
+                    { month: 'February', amount: 1500, date: '2024-02-14', status: 'Paid', receiptId: 'REC002' },
+                    { month: 'March', amount: 1500, date: '2024-03-15', status: 'Paid', receiptId: 'REC003' }
+                ]
+            }
+        };
+
+        let currentUser = null;
+        let selectedPaymentMethod = null;
+
+        // Login function
+        function login(event) {
+            event.preventDefault();
+            const studentId = document.getElementById('loginId').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (students[studentId] && students[studentId].password === password) {
+                currentUser = students[studentId];
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('mainContent').classList.remove('hidden');
+                initializeDashboard();
+                updatePaymentOptions();
+            } else {
+                showNotification('Invalid credentials!', 'error');
+            }
+        }
+
+        // Initialize dashboard
+        function initializeDashboard() {
+            document.getElementById('studentName').textContent = currentUser.name;
+            document.getElementById('studentId').textContent = currentUser.id;
+            
+            // Calculate stats
+            const paidMonths = currentUser.payments.filter(p => p.status === 'Paid').length;
+            const totalDue = (12 - paidMonths) * currentUser.fees.monthly;
+            const paidThisMonth = currentUser.payments.filter(p => {
+                const paymentDate = new Date(p.date);
+                const currentDate = new Date();
+                return paymentDate.getMonth() === currentDate.getMonth() && p.status === 'Paid';
+            }).length > 0 ? currentUser.fees.monthly : 0;
+
+            document.getElementById('totalDue').textContent = `$${totalDue}`;
+            document.getElementById('paidThisMonth').textContent = `$${paidThisMonth}`;
+            
+            // Set next due date
+            const nextMonth = new Date();
+            nextMonth.setMonth(nextMonth.getMonth() + 1);
+            document.getElementById('nextDueDate').textContent = nextMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+            
+            // Set payment status
+            document.getElementById('paymentStatus').textContent = paidThisMonth > 0 ? 'Paid' : 'Pending';
+            document.getElementById('paymentStatus').className = paidThisMonth > 0 ? 'text-lg font-bold text-green' : 'text-lg font-bold text-yellow-400';
+
+            // Update recent payments
+            updateRecentPayments();
+        }
+
+        // Update recent payments table
+        function updateRecentPayments() {
+            const tbody = document.getElementById('recentPayments');
+            tbody.innerHTML = '';
+            
+            currentUser.payments.slice(-5).reverse().forEach(payment => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-800 hover:bg-gray-900 transition';
+                row.innerHTML = `
+                    <td class="py-3 px-4">${new Date(payment.date).toLocaleDateString()}</td>
+                    <td class="py-3 px-4">${payment.month}</td>
+                    <td class="py-3 px-4 font-bold">$${payment.amount}</td>
+                    <td class="py-3 px-4">
+                        <span class="px-2 py-1 rounded-full text-xs ${payment.status === 'Paid' ? 'bg-green-900 text-green-300' : 'bg-yellow-900 text-yellow-300'}">
+                            ${payment.status}
+                        </span>
+                    </td>
+                    <td class="py-3 px-4">
+                        <button onclick="viewReceipt('${payment.receiptId}')" class="text-green hover:text-green/80 transition">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Show section
+        function showSection(section) {
+            // Hide all sections
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('feesSection').classList.add('hidden');
+            document.getElementById('paymentSection').classList.add('hidden');
+            document.getElementById('receiptsSection').classList.add('hidden');
+            
+            // Show selected section
+            document.getElementById(section + 'Section').classList.remove('hidden');
+            
+            if (section === 'receipts') {
+                updateReceiptsList();
+            }
+        }
+
+        // Generate fee slip
+        function generateFeeSlip() {
+            const month = document.getElementById('feeMonth').value;
+            if (!month) {
+                showNotification('Please select a month!', 'error');
+                return;
+            }
+
+            const feeSlipDisplay = document.getElementById('feeSlipDisplay');
+            const feeSlipContent = document.getElementById('feeSlipContent');
+            
+            const dueDate = new Date();
+            dueDate.setMonth(dueDate.getMonth() + 1);
+            dueDate.setDate(15);
+
+            feeSlipContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-lg font-bold">FeeMaster Pro</h4>
+                            <p class="text-gray-400">Student Fee Management System</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-400">Fee Slip ID</p>
+                            <p class="font-mono">FSL${Date.now().toString().slice(-6)}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-700 pt-4">
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-sm text-gray-400">Student Name</p>
+                                <p class="font-semibold">${currentUser.name}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Student ID</p>
+                                <p class="font-semibold">${currentUser.id}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Month</p>
+                                <p class="font-semibold">${month} ${new Date().getFullYear()}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-400">Due Date</p>
+                                <p class="font-semibold">${dueDate.toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-700 pt-4">
+                            <h5 class="font-semibold mb-3">Fee Breakdown</h5>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span>Tuition Fee</span>
+                                    <span>$${currentUser.fees.breakdown.tuition}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Lab Fee</span>
+                                    <span>$${currentUser.fees.breakdown.lab}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Library Fee</span>
+                                    <span>$${currentUser.fees.breakdown.library}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Sports Fee</span>
+                                    <span>$${currentUser.fees.breakdown.sports}</span>
+                                </div>
+                                <div class="border-t border-gray-700 pt-2 mt-2">
+                                    <div class="flex justify-between font-bold text-green">
+                                        <span>Total Amount</span>
+                                        <span>$${currentUser.fees.monthly}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-700 pt-4 mt-4">
+                            <p class="text-sm text-gray-400 text-center">
+                                Please pay on or before the due date to avoid late fees.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            feeSlipDisplay.classList.remove('hidden');
+            showNotification('Fee slip generated successfully!', 'success');
+        }
+
+        // Update payment options
+        function updatePaymentOptions() {
+            const paymentMonth = document.getElementById('paymentMonth');
+            const currentMonth = new Date().getMonth();
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            paymentMonth.innerHTML = '<option value="">Select Month</option>';
+            
+            for (let i = currentMonth; i < 12; i++) {
+                const monthName = months[i];
+                const isPaid = currentUser.payments.some(p => p.month === monthName && p.status === 'Paid');
+                
+                if (!isPaid) {
+                    const option = document.createElement('option');
+                    option.value = monthName;
+                    option.textContent = monthName;
+                    paymentMonth.appendChild(option);
+                }
+            }
+        }
+
+        // Select payment method
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.payment-method').forEach(btn => {
+                btn.classList.remove('border-green');
+                btn.classList.add('border-gray-700');
+            });
+            event.target.closest('.payment-method').classList.remove('border-gray-700');
+            event.target.closest('.payment-method').classList.add('border-green');
+            
+            document.getElementById('paymentForm').classList.remove('hidden');
+            document.getElementById('cardForm').classList.toggle('hidden', method !== 'card');
+            document.getElementById('upiForm').classList.toggle('hidden', method !== 'upi');
+        }
+
+        // Update payment amount
+        document.getElementById('paymentMonth').addEventListener('change', function() {
+            if (this.value) {
+                document.getElementById('paymentAmount').textContent = `$${currentUser.fees.monthly}`;
+            } else {
+                document.getElementById('paymentAmount').textContent = '$0';
+            }
+        });
+
+        // Process payment
+        function processPayment() {
+            const month = document.getElementById('paymentMonth').value;
+            if (!month || !selectedPaymentMethod) {
+                showNotification('Please select month and payment method!', 'error');
+                return;
+            }
+
+            // Simulate payment processing
+            showNotification('Processing payment...', 'info');
+            
+            setTimeout(() => {
+                const receiptId = 'REC' + Date.now().toString().slice(-6);
+                const payment = {
+                    month: month,
+                    amount: currentUser.fees.monthly,
+                    date: new Date().toISOString().split('T')[0],
+                    status: 'Paid',
+                    receiptId: receiptId,
+                    method: selectedPaymentMethod
+                };
+                
+                currentUser.payments.push(payment);
+                
+                showNotification('Payment successful!', 'success');
+                initializeDashboard();
+                updatePaymentOptions();
+                
+                // Reset form
+                document.getElementById('paymentMonth').value = '';
+                document.getElementById('paymentAmount').textContent = '$0';
+                document.getElementById('paymentForm').classList.add('hidden');
+                selectedPaymentMethod = null;
+                document.querySelectorAll('.payment-method').forEach(btn => {
+                    btn.classList.remove('border-green');
+                    btn.classList.add('border-gray-700');
+                });
+                
+                // Show receipt
+                viewReceipt(receiptId);
+            }, 2000);
+        }
+
+        // View receipt
+        function viewReceipt(receiptId) {
+            const payment = currentUser.payments.find(p => p.receiptId === receiptId);
+            if (!payment) return;
+            
+            const receiptContent = document.getElementById('receiptContent');
+            receiptContent.innerHTML = `
+                <div class="space-y-4">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h4 class="text-lg font-bold text-black">FeeMaster Pro</h4>
+                            <p class="text-gray-600">Student Fee Management System</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-sm text-gray-600">Receipt ID</p>
+                            <p class="font-mono font-bold text-black">${payment.receiptId}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-300 pt-4">
+                        <div class="grid grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <p class="text-sm text-gray-600">Student Name</p>
+                                <p class="font-semibold text-black">${currentUser.name}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Student ID</p>
+                                <p class="font-semibold text-black">${currentUser.id}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Month</p>
+                                <p class="font-semibold text-black">${payment.month}</p>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Payment Date</p>
+                                <p class="font-semibold text-black">${new Date(payment.date).toLocaleDateString()}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-300 pt-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-gray-600">Payment Method</span>
+                                <span class="font-semibold text-black">${payment.method === 'card' ? 'Credit/Debit Card' : 'UPI'}</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-gray-600">Amount Paid</span>
+                                <span class="text-2xl font-bold text-green-600">$${payment.amount}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border-t border-gray-300 pt-4 mt-4">
+                            <p class="text-sm text-gray-600 text-center">
+                                This is a computer-generated receipt and does not require a signature.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('receiptModal').classList.remove('hidden');
+        }
+
+        // Close receipt modal
+        function closeReceiptModal() {
+            document.getElementById('receiptModal').classList.add('hidden');
+        }
+
+        // Print receipt
+        function printReceipt() {
+            window.print();
+        }
+
+        // Download receipt
+        function downloadReceipt() {
+            showNotification('Receipt downloaded successfully!', 'success');
+        }
+
+        // Update receipts list
+        function updateReceiptsList() {
+            const receiptsList = document.getElementById('receiptsList');
+            receiptsList.innerHTML = '';
+            
+            currentUser.payments.slice().reverse().forEach(payment => {
+                const receiptCard = document.createElement('div');
+                receiptCard.className = 'bg-gray-900 p-4 rounded-lg hover:bg-gray-800 transition';
+                receiptCard.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h4 class="font-semibold">${payment.month} ${new Date(payment.date).getFullYear()}</h4>
+                            <p class="text-sm text-gray-400">Receipt ID: ${payment.receiptId}</p>
+                            <p class="text-sm text-gray-400">Date: ${new Date(payment.date).toLocaleDateString()}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xl font-bold text-green">$${payment.amount}</p>
+                            <div class="mt-2 space-x-2">
+                                <button onclick="viewReceipt('${payment.receiptId}')" class="text-green hover:text-green/80 transition">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button onclick="downloadReceipt()" class="text-blue-400 hover:text-blue-300 transition">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                receiptsList.appendChild(receiptCard);
+            });
+        }
+
+        // Download all receipts
+        function downloadAllReceipts() {
+            showNotification('All receipts downloaded successfully!', 'success');
+        }
+
+        // Logout
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('loginId').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-20 right-4 px-6 py-3 rounded-lg shadow-lg z-50 slide-in ${
+                type === 'success' ? 'bg-green-600 text-white' :
+                type === 'error' ? 'bg-red-600 text-white' :
+                'bg-blue-600 text-white'
+            }`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${
+                        type === 'success' ? 'fa-check-circle' :
+                        type === 'error' ? 'fa-exclamation-circle' :
+                        'fa-info-circle'
+                    } mr-2"></i>
+                    ${message}
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add some animation to nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('text-green'));
+                    this.classList.add('text-green');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

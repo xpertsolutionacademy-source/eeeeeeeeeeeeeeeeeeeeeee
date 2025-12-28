@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./asste file/image file/xpert solution academmy f-01.png">
+    <title>SUPPORT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .panel-container {
+            display: flex;
+            gap: 20px;
+            width: 90vw;
+            max-width: 1200px;
+            height: 85vh;
+        }
+
+        .panel {
+            background-color: #000000;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 
+                0 0 25px rgba(0, 255, 38, 0.7),
+                0 0 50px rgba(0, 255, 38, 0.5),
+                0 0 75px rgba(0, 255, 38, 0.3);
+            animation: pulseGlow 3s infinite ease-in-out;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 25px rgba(0, 255, 38, 0.7),
+                    0 0 50px rgba(0, 255, 38, 0.5),
+                    0 0 75px rgba(0, 255, 38, 0.3);
+            }
+            50% {
+                box-shadow: 
+                    0 0 35px rgba(0, 255, 38, 0.9),
+                    0 0 70px rgba(0, 255, 38, 0.7),
+                    0 0 100px rgba(0, 255, 38, 0.5);
+            }
+        }
+
+        .panel-header {
+            background-color: #000000;
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(0, 255, 38, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title {
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .panel-status {
+            width: 8px;
+            height: 8px;
+            background-color: #00ff26;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        .main-panel {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .side-panel {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            max-width: 80%;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            margin-left: auto;
+            text-align: right;
+        }
+
+        .bot-message {
+            margin-right: auto;
+        }
+
+        .message-bubble {
+            padding: 14px 18px;
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+
+        .user-bubble {
+            background-color: rgba(0, 255, 38, 0.1);
+            border: 1px solid rgba(0, 255, 38, 0.3);
+            color: #ffffff;
+        }
+
+        .bot-bubble {
+            background-color: rgba(0, 255, 38, 0.05);
+            border: 1px solid rgba(0, 255, 38, 0.2);
+            color: #ffffff;
+        }
+
+        .input-area {
+            padding: 16px 20px;
+            background-color: #000000;
+            border-top: 1px solid rgba(0, 255, 38, 0.2);
+            display: flex;
+            gap: 12px;
+        }
+
+        .input-field {
+            flex: 1;
+            background-color: rgba(0, 255, 38, 0.05);
+            border: 1px solid rgba(0, 255, 38, 0.2);
+            border-radius: 24px;
+            padding: 10px 16px;
+            color: white;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .input-field:focus {
+            border-color: rgba(0, 255, 38, 0.5);
+            box-shadow: 0 0 0 2px rgba(0, 255, 38, 0.1);
+        }
+
+        .send-button {
+            width: 44px;
+            height: 44px;
+            background-color: transparent;
+            border: 1px solid rgba(0, 255, 38, 0.5);
+            border-radius: 50%;
+            color: #00ff26;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            background-color: rgba(0, 255, 38, 0.1);
+            border-color: #00ff26;
+        }
+
+        .call-item {
+            background-color: rgba(0, 255, 38, 0.05);
+            border: 1px solid rgba(0, 255, 38, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .call-item:hover {
+            background-color: rgba(0, 255, 38, 0.1);
+            border-color: rgba(0, 255, 38, 0.3);
+        }
+
+        .service-card {
+            background-color: rgba(0, 255, 38, 0.05);
+            border: 1px solid rgba(0, 255, 38, 0.1);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            background-color: rgba(0, 255, 38, 0.1);
+            border-color: rgba(0, 255, 38, 0.3);
+        }
+
+        .service-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 255, 38, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff26;
+            margin-bottom: 12px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 0;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: rgba(0, 255, 38, 0.6);
+            border-radius: 50%;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(0, 255, 38, 0.3);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel-container">
+        <!-- Left Panel - Active Calls -->
+        <div class="panel side-panel">
+            <div class="panel-header">
+                <div class="panel-status"></div>
+                <span class="panel-title">Active AI Calls</span>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto">
+                <div class="call-item">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white text-sm">Customer Support Bot</span>
+                        <span class="text-green-400 text-xs">Live</span>
+                    </div>
+                    <p class="text-gray-400 text-xs">Helping with account issues...</p>
+                </div>
+                <div class="call-item">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white text-sm">Sales Assistant</span>
+                        <span class="text-yellow-400 text-xs">Waiting</span>
+                    </div>
+                    <p class="text-gray-400 text-xs">Product recommendations pending...</p>
+                </div>
+                <div class="call-item">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white text-sm">XPERT SOLUTION ACADEMY AI CALL</span>
+                         <button class="button111" style="width:100px; background-color:rgb(32, 253, 32)"><a href="./aicall.html">CALL </a></button>
+                    </div>
+                    <p class="text-gray-400 text-xs">XPERT SOLUTION ACADEMY AI</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Panel - Chatbot -->
+        <div class="panel main-panel">
+            <div class="panel-header">
+                <div class="panel-status"></div>
+                <span class="panel-title">AI Assistant</span>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="message-bubble bot-bubble">
+                        Hello! I'm your AI assistant. How can I help you today?
+                    </div>
+                </div>
+                
+                <div class="message user-message">
+                    <div class="message-bubble user-bubble">
+                        Can you tell me about artificial intelligence?
+                    </div>
+                </div>
+                
+                <div class="message bot-message">
+                    <div class="message-bubble bot-bubble">
+                        Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are programmed to think like humans and mimic their actions. The term may also be applied to any machine that exhibits traits associated with a human mind such as learning and problem-solving.
+                    </div>
+                </div>
+            </div>
+            <div class="input-area">
+                <input type="text" class="input-field" placeholder="Type your message..." id="messageInput">
+                <button class="send-button" id="sendButton">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Panel - Available Services -->
+        <div class="panel side-panel">
+            <div class="panel-header">
+                <div class="panel-status"></div>
+                <span class="panel-title">AI Services</span>
+            </div>
+            <div class="flex-1 p-4 overflow-y-auto">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="text-white text-sm font-medium mb-2">Customer Support</h3>
+                    <p class="text-gray-400 text-xs">Get instant help with product inquiries and technical issues.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="text-white text-sm font-medium mb-2">Data Analysis</h3>
+                    <p class="text-gray-400 text-xs">Analyze business data and get actionable insights.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-white text-sm font-medium mb-2">Code Assistant</h3>
+                    <p class="text-gray-400 text-xs">Generate code snippets and debug programming errors.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="text-white text-sm font-medium mb-2">Creative Writing</h3>
+                    <p class="text-gray-400 text-xs">Generate creative content, stories, and marketing copy.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const chatMessages = document.getElementById('chatMessages');
+
+        // Function to add a new message
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message');
+            if (isUser) {
+                messageDiv.classList.add('user-message');
+            } else {
+                messageDiv.classList.add('bot-message');
+            }
+
+            const bubbleDiv = document.createElement('div');
+            bubbleDiv.classList.add('message-bubble');
+            if (isUser) {
+                bubbleDiv.classList.add('user-bubble');
+            } else {
+                bubbleDiv.classList.add('bot-bubble');
+            }
+            bubbleDiv.textContent = text;
+
+            messageDiv.appendChild(bubbleDiv);
+            chatMessages.appendChild(messageDiv);
+
+            // Scroll to bottom
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // Function to show typing indicator
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.classList.add('typing-indicator');
+            typingDiv.innerHTML = `
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return typingDiv;
+        }
+
+        // Function to remove typing indicator
+        function removeTypingIndicator(indicator) {
+            if (indicator && indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }
+
+        // Function to simulate bot response
+        function simulateBotResponse(userMessage) {
+            const typingIndicator = showTypingIndicator();
+            
+            setTimeout(() => {
+                removeTypingIndicator(typingIndicator);
+                
+                let response = "That's an interesting question!";
+                if (userMessage.toLowerCase().includes("ai") || userMessage.toLowerCase().includes("artificial intelligence")) {
+                    response = "Artificial Intelligence is revolutionizing how we interact with technology. It enables machines to perform tasks that typically require human intelligence.";
+                } else if (userMessage.toLowerCase().includes("hello") || userMessage.toLowerCase().includes("hi")) {
+                    response = "Hello! How can I assist you today?";
+                } else if (userMessage.toLowerCase().includes("help")) {
+                    response = "I can help you with information about AI, answer questions, or just chat. What would you like to know?";
+                } else {
+                    response = `You asked: "${userMessage}". That's a great point to consider.`;
+                }
+                
+                addMessage(response);
+            }, 1500 + Math.random() * 1000);
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', () => {
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                addMessage(messageText, true);
+                messageInput.value = '';
+                simulateBotResponse(messageText);
+            }
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        // Add some sample conversation after loading
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                addMessage("What other topics are you interested in?", false);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

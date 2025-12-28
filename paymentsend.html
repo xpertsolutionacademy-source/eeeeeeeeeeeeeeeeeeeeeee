@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./asste file/image file/xpert solution academmy f-01.png">
+    <title>Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ff26;
+            border-radius: 50%;
+            animation: particleFloat 8s linear infinite;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 255, 38, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 38, 0.1);
+        }
+
+        h1 {
+            color: #ffffff;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            text-shadow: 0 0 10px rgba(0, 255, 38, 0.5);
+        }
+
+        .payment-methods {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+        }
+
+        .method-btn {
+            background: rgba(0, 255, 38, 0.1);
+            border: 1px solid #00ff26;
+            color: #00ff26;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .method-btn.active {
+            background: #00ff26;
+            color: #000000;
+            box-shadow: 0 0 15px rgba(0, 255, 38, 0.5);
+        }
+
+        .method-btn:hover:not(.active) {
+            background: rgba(0, 255, 38, 0.2);
+            box-shadow: 0 0 10px rgba(0, 255, 38, 0.3);
+        }
+
+        .payment-form {
+            display: none;
+        }
+
+        .payment-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 38, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: #00ff26;
+            box-shadow: 0 0 15px rgba(0, 255, 38, 0.4);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-label {
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            color: #00ff26;
+            font-size: 12px;
+            font-weight: bold;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus + .form-label {
+            top: -25px;
+            font-size: 11px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #00ff26, #00cc1f);
+            border: none;
+            border-radius: 8px;
+            color: #000000;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 38, 0.4);
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        /* Card Payment Specific Styles */
+        .card-display {
+            perspective: 1000px;
+            margin-bottom: 20px;
+        }
+
+        .credit-card {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: all 0.6s ease;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 38, 0.5),
+                inset 0 0 10px rgba(0, 255, 38, 0.2);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotateX(0deg); }
+            50% { transform: translateY(-8px) rotateX(3deg); }
+        }
+
+        .card-chip {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 30px;
+            background: linear-gradient(45deg, #00ff26, #00cc1f);
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 255, 38, 0.7);
+            animation: chipGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes chipGlow {
+            from { box-shadow: 0 0 10px rgba(0, 255, 38, 0.7); }
+            to { box-shadow: 0 0 20px rgba(0, 255, 38, 1); }
+        }
+
+        .card-number {
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            right: 20px;
+            text-align: left;
+            color: white;
+            font-size: 16px;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .card-name {
+            position: absolute;
+            bottom: 35px;
+            left: 20px;
+            right: 20px;
+            text-align: left;
+            color: #cccccc;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        .card-expiry {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            color: #cccccc;
+            font-size: 13px;
+            text-align: right;
+        }
+
+        .security-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: #00ff26;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000000;
+            font-weight: bold;
+            font-size: 12px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Easypaisa/Nayapay/Sadapay Styles */
+        .mobile-payment {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .mobile-icon {
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 255, 38, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff26;
+            font-size: 24px;
+        }
+
+        .mobile-screen {
+            width: 70%;
+            height: 60%;
+            background: #000000;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #00ff26;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 2px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+
+        .qr-dot {
+            aspect-ratio: 1;
+            background: #00ff26;
+            border-radius: 2px;
+            animation: qrPulse 2s infinite;
+        }
+
+        @keyframes qrPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .success-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(0, 255, 38, 0.9);
+            color: #000000;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .success-message.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 255, 38, 0.3);
+            border-top: 4px solid #00ff26;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <h1>Payment Gateway</h1>
+        
+        <div class="payment-methods">
+            <button class="method-btn active" data-method="card">Credit Card</button>
+            <button class="method-btn" data-method="easypaisa">Easypaisa</button>
+            <button class="method-btn" data-method="nayapay">Nayapay</button>
+            <button class="method-btn" data-method="sadapay">Sadapay</button>
+        </div>
+
+        <!-- Credit Card Payment Form -->
+        <div class="payment-form active" id="card-form">
+            <div class="card-display">
+                <div class="credit-card" id="creditCard">
+                    <div class="card-chip"></div>
+                    <div class="card-number" id="cardNumber">5403 7580 3610 0696</div>
+                    <div class="card-name" id="cardName">Xpert Solution Academy</div>
+                    <div class="card-expiry" id="cardExpiry">11/30</div>
+                    <div class="security-badge">✓</div>
+                </div>
+            </div>
+
+            <form id="cardPaymentForm">
+                <div class="form-group">
+                    <input type="text" class="form-input" id="cardNumInput" maxlength="19" placeholder="1234 5678 9012 3456" required>
+                    <label class="form-label">Card Number</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-input" id="cardNameInput" placeholder="Student" required>
+                    <label class="form-label">Cardholder Name</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="text" class="form-input" id="expiryInput" placeholder="MM/YY" maxlength="5" required>
+                    <label class="form-label">Expiry Date</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-input" id="cvvInput" placeholder="123" maxlength="3" required>
+                    <label class="form-label">CVV</label>
+                </div>
+
+                <button type="submit" class="submit-btn">Pay Now</button> <a href="./resipt.html" style="color: aliceblue;">Payment Resipt</a>
+            </form>
+        </div>
+
+        <!-- Easypaisa Payment Form -->
+        <div class="payment-form" id="easypaisa-form">
+            <div class="mobile-payment">
+                <div class="mobile-icon">
+                    <div class="mobile-screen">Easypaisa</div>
+                </div>
+                
+                <div class="qr-code" id="easypaisaQR">
+                    <!-- QR code dots will be generated by JavaScript -->
+                </div>
+                
+                <p style="color: #00ff26; text-align: center;">Scan QR Code or Enter Mobile Number</p>
+                
+                <div class="form-group">
+                    <input type="tel" class="form-input" id="easypaisaMobile" placeholder="03XX XXXXXXX" required>
+                    <label class="form-label">Mobile Number</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" class="form-input" id="easypaisaAmount" placeholder="Amount" required>
+                    <label class="form-label">Amount (PKR)</label>
+                </div>
+                
+                <button type="button" class="submit-btn" onclick="processPayment('easypaisa')">Pay via Easypaisa</button>
+            </div>
+        </div>
+
+        <!-- Nayapay Payment Form -->
+        <div class="payment-form" id="nayapay-form">
+            <div class="mobile-payment">
+                <div class="mobile-icon">
+                    <div class="mobile-screen">Nayapay</div>
+                </div>
+                
+                <div class="qr-code" id="nayapayQR">
+                    <!-- QR code dots will be generated by JavaScript -->
+                </div>
+                
+                <p style="color: #00ff26; text-align: center;">Scan QR Code or Use Account Details</p>
+                
+                <div class="form-group">
+                    <input type="email" class="form-input" id="nayapayEmail" placeholder="your@email.com" required>
+                    <label class="form-label">Email Address</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" class="form-input" id="nayapayAmount" placeholder="Amount" required>
+                    <label class="form-label">Amount (PKR)</label>
+                </div>
+                
+                <button type="button" class="submit-btn" onclick="processPayment('nayapay')">Pay via Nayapay</button>
+            </div>
+        </div>
+
+        <!-- Sadapay Payment Form -->
+        <div class="payment-form" id="sadapay-form">
+            <div class="mobile-payment">
+                <div class="mobile-icon">
+                    <div class="mobile-screen">Sadapay</div>
+                </div>
+                
+                <div class="qr-code" id="sadapayQR">
+                    <!-- QR code dots will be generated by JavaScript -->
+                </div>
+                
+                <p style="color: #00ff26; text-align: center;">Scan QR Code or Enter Sadapay ID</p>
+                
+                <div class="form-group">
+                    <input type="text" class="form-input" id="sadapayId" placeholder="SPXXXXXXX" required>
+                    <label class="form-label">Sadapay ID</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="number" class="form-input" id="sadapayAmount" placeholder="Amount" required>
+                    <label class="form-label">Amount (PKR)</label>
+                </div>
+                
+                <button type="button" class="submit-btn" onclick="processPayment('sadapay')">Pay via Sadapay</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        Payment Successful! Thank you for your purchase.
+    </div>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Generate QR codes
+        function generateQRCode(containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            for (let i = 0; i < 100; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('qr-dot');
+                
+                // Randomly make some dots visible
+                if (Math.random() > 0.6) {
+                    dot.style.opacity = '1';
+                }
+                
+                container.appendChild(dot);
+            }
+        }
+
+        // Payment method switching
+        document.querySelectorAll('.method-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Hide all forms
+                document.querySelectorAll('.payment-form').forEach(form => form.classList.remove('active'));
+                // Show selected form
+                const method = this.getAttribute('data-method');
+                document.getElementById(method + '-form').classList.add('active');
+            });
+        });
+
+        // Update card display
+        function updateCardDisplay() {
+            const cardNumInput = document.getElementById('cardNumInput');
+            const cardNameInput = document.getElementById('cardNameInput');
+            const expiryInput = document.getElementById('expiryInput');
+
+            document.getElementById('cardNumber').textContent = cardNumInput.value || '•••• •••• •••• ••••';
+            document.getElementById('cardName').textContent = cardNameInput.value.toUpperCase() || 'CARDHOLDER NAME';
+            
+            if (expiryInput.value.length === 5) {
+                document.getElementById('cardExpiry').textContent = expiryInput.value;
+            } else {
+                document.getElementById('cardExpiry').textContent = 'MM/YY';
+            }
+        }
+
+        // Process payment
+        function processPayment(method) {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+            
+            // Simulate loading
+            const submitBtn = event.target;
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<div class="loading-spinner"></div>';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // Reset form
+                if (method === 'card') {
+                    document.getElementById('cardPaymentForm').reset();
+                    updateCardDisplay();
+                } else {
+                    document.querySelector(`#${method}-form .form-input`).forEach(input => input.value = '');
+                }
+            }, 3000);
+        }
+
+        // Event listeners for card form
+        document.getElementById('cardNumInput').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ');
+            updateCardDisplay();
+        });
+
+        document.getElementById('cardNameInput').addEventListener('input', updateCardDisplay);
+        document.getElementById('expiryInput').addEventListener('input', updateCardDisplay);
+
+        // Handle card form submission
+        document.getElementById('cardPaymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            processPayment('card');
+        });
+
+        // Initialize
+        createParticles();
+        generateQRCode('easypaisaQR');
+        generateQRCode('nayapayQR');
+        generateQRCode('sadapayQR');
+        updateCardDisplay();
+    </script>
+</body>
+</html>

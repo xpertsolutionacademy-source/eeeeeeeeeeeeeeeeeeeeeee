@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./asste file/image file/xpert solution academmy f-01.png">
+    <title>Dashboard</title>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- CSS Variables for Easy Theme Management --- */
+        :root {
+            --bg-primary: #000000;      /* Main background, a soft black */
+            --bg-secondary: #000000;    /* Slightly lighter for cards, sidebar */
+            --bg-tertiary: #000000;     /* For hover states */
+            --text-primary: #e0e0e0;    /* Main text color, off-white */
+            --text-secondary: #a0a0a0;  /* Muted text */
+            --accent-color: #00ff26;    /* A primary blue for highlights */
+            --accent-hover: #00ff2f;    /* Darker blue for hover */
+            --border-color: #000000;    /* Subtle borders */
+            --shadow: 0 4px 12px rgba(93, 255, 53, 0.4);
+        }
+
+        /* --- General Body & Typography --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- Dashboard Layout --- */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+        }
+
+        /* --- Sidebar --- */
+        .sidebar {
+            width: 250px;
+            background-color: var(--bg-secondary);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: margin-left 0.3s ease-in-out;
+        }
+
+        .sidebar.collapsed {
+            margin-left: -250px;
+        }
+
+        .sidebar-header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h2 {
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .sidebar-nav {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background-color: var(--bg-tertiary);
+            color: var(--text-primary);
+        }
+
+        .sidebar-nav i {
+            margin-right: 15px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* --- Main Content Area --- */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-primary);
+        }
+
+        /* --- Top Navigation Bar --- */
+        .top-nav {
+            background-color: var(--bg-secondary);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        #sidebar-toggle {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+        }
+
+        /* --- Dashboard Content (Widgets) --- */
+        .content {
+            padding: 30px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+        }
+
+        .content-header h1 {
+            font-size: 2rem;
+            font-weight: 300;
+        }
+
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .widget-card {
+            background-color: var(--bg-secondary);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+        }
+
+        .widget-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .widget-card h3 {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .widget-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--accent-color);
+        }
+
+        .widget-chart-placeholder {
+            height: 200px;
+            background-color: var(--bg-tertiary);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+        }
+        .button111{
+            background: linear-gradient(45deg, #00ff26, #00cc1f);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 38, 0.5);
+            text-decoration-color: aliceblue;
+        
+
+        }
+          .button111:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 255, 38, 0.7);
+        }
+
+        .button111:active {
+            transform: scale(0.95);
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="./asste file/image file/xpert solution academmy .jpg" width="130px" height="60px">
+            </div>
+            <nav>
+                <ul class="sidebar-nav">
+                    <li><a href="./portal.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <li><a href="./Courses.html"><i class="fas fa-graduation-cap"></i> Courses </a></li>
+                  
+                    <li><a href="./Paymentpage.html"><i class="fa fa-credit-card"></i>Payment</a></li>
+                      <li><a href="https://linktr.ee/Assignment.com"> <i class="fas fa-tasks"></i>Assignment</a></li> 
+                       <li><a href="./Earn.html"><i class="fa-solid fa-coins"></i>Earning</a></li>
+                        <li><a href="https://forms.gle/Xs8N2oCNqiUBM4wk7">  <i class="fas fa-question-circle"></i>Quiz</li> <br> <br>  <br>
+                    <li><a href="./setting.html"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Top Navigation -->
+            <header class="top-nav">
+                <button id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+                <div class="user-profile">
+                    <span>Welcome Student Portal</span>
+                    <div class="coin"></div>
+                    <img src="https://i.pravatar.cc/40" alt="User Avatar">
+                </div>
+            </header>
+            <br>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <a href="./studentia.html" style="color: #00ff2f;"><i class="fas fa-id-card"></i> DOWNLOAD ID CARD</a>
+            <!-- Dashboard Widgets -->
+            <main class="content">
+                <div class="content-header">
+                    <h1>Dashboard</h1>
+                </div>
+                
+                <div class="widget-grid">
+                    <div class="widget-card">
+                        <h3> Live Student</h3>
+                        <p class="widget-value" id="revenue-value">50+</p>
+                    </div>
+                    <div class="widget-card">
+                        <h3>Total Student</h3>
+                        <p class="widget-value">300+</p>
+                    </div>
+                    <div class="widget-card">
+                        <h3>Today Section</h3>
+                        <p class="widget-value">30+</p>
+                    </div>
+                </div>
+<div class="content-header">
+                <div class="widget-grid">
+                    <div class="widget-card" style="grid-column: 1 / -1;">
+                        <h3>🔴 Live Class</h3>
+                        <div class="widget-chart-placeholder">
+                            <div class="widget-card"> 
+                        <h3>  🔴 LIVE <br> <br>
+                            The Morning IT Live Class offers a simple practical way to learn key IT skills at the end of your day
+
+                        </h3>
+                        <p class="widget-value"></p>
+                        <button class="button111" style="width:100px; background-color:rgb(32, 253, 32)"><a href="./video.html">Join</a></button>
+                    </div>
+                    &nbsp; &nbsp;  &nbsp;   &nbsp;
+                    <div class="widget-card">
+                        <h3>🔴 LIVE <br> <br>
+                            The Evening IT Live Class offers a simple practical way to learn key IT skills at the end of your day
+</h3>
+                        <p class="widget-value"></p>
+                         <button class="button111" style="width:100px; background-color:rgb(32, 253, 32)"><a href="./video.html">Join</a></button>
+                    </div>
+                                        &nbsp; &nbsp;  &nbsp;   &nbsp;
+                    <div class="widget-card">
+                        <h3> 🔴 LIVE <br> <br>
+                        The Night IT Live Class offers a simple practical way to learn key IT skills at the end of your day
+</h3>
+                        <p class="widget-value"></p>
+                     <button class="button111" style="width:100px; background-color:rgb(32, 253, 32)"><a href="./video.html">Join</a></button>
+                    </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+    <script>
+        // --- JavaScript for Interactivity ---
+
+        // 1. Sidebar Toggle
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('sidebar');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+        });
+
+        // 2. Simulate Live Data Update for Revenue
+        const revenueElement = document.getElementById('revenue-value');
+        
+        function updateRevenue() {
+            // Get current value, remove '$' and ',' to parse as a number
+            let currentValue = 3+parseInt(revenueElement.innerText.replace(/[$,]/g, ''));
+            
+            // Add a random amount between 50 and 500
+            let increment = Math.floor(Math.random() * 50) + 20;
+            let newValue = currentValue = 1+ increment;
+            // Format the new value with a comma and dollar sign
+            revenueElement.innerText = 2 + newValue.toLocaleString();
+        }
+
+        // Update the revenue every 3 seconds
+        setInterval(updateRevenue, 100);
+
+    </script>
+
+</body>
+</html>

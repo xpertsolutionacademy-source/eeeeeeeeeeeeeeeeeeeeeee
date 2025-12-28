@@ -1,0 +1,145 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./asste file/image file/xpert solution academmy f-01.png">
+    <title>Payment Gateway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></link>
+    <style>
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 15px rgba(34, 255, 0, 0.559);
+            }
+            50% { 
+                box-shadow: 0 0 25px rgba(0, 255, 38, 0.7), 0 0 35px rgb(0, 255, 38);
+            }
+        }
+        
+        .glow-effect {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        .payment-card {
+            transition: all 0.3s ease;
+        }
+        
+        .payment-card:hover {
+            transform: translateY(-5px);
+            filter: brightness(1.05);
+        }
+        
+        .btn-hover:hover {
+            background-color: #00ff11 !important;
+            transform: scale(1.02);
+        }
+        
+        body {
+            background-color: #000000;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold mb-4">Payment Gateway</h1>
+            <p class="text-gray-300">Choose your preferred payment method</p>
+        </header>
+
+        <!-- Payment Methods Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Online Card Payment -->
+            <div class="payment-card bg-black-900 rounded-lg p-6 glow-effect border border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <i class="fas fa-credit-card text-3xl text-white-500"></i>
+                    <span class="bg-white-600 text-xs px-3 py-1 rounded-full">Online</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Credit/Debit Card</h3>
+                <p class="text-white-400 text-sm mb-4">Secure online payments with major cards</p>
+              <a href="./paymentsend.html" class="w-full bg-black-600 hover:bg-green-700 text-black font-bold py-3 px-4 rounded btn-hover transition-all duration-300"> Pay Now</a>
+            </div>
+
+            <!-- Easypaisa -->
+            <div class="payment-card bg-black-900 rounded-lg p-6 glow-effect border border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <i class="fab fa-pakistan text-3xl text-white-500"></i>
+                    <span class="bg-white-600 text-xs px-3 py-1 rounded-full">Mobile</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Easypaisa</h3>
+                <p class="text-gray-400 text-sm mb-4">Fast mobile wallet payments</p>
+               <a href="./paymentsend.html" class="w-full bg-black-600 hover:bg-green-700 text-black font-bold py-3 px-4 rounded btn-hover transition-all duration-300"> Pay Now</a>
+            </div>
+
+            <!-- Nayapay -->
+            <div class="payment-card bg-black-900 rounded-lg p-6 glow-effect border border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <i class="fas fa-wallet text-3xl text-white-500"></i>
+                    <span class="bg-white-600 text-xs px-3 py-1 rounded-full">Digital</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Nayapay</h3>
+                <p class="text-gray-400 text-sm mb-4">Digital wallet for seamless transactions</p>
+             <a href="./paymentsend.html" class="w-full bg-black-600 hover:bg-green-700 text-black font-bold py-3 px-4 rounded btn-hover transition-all duration-300"> Pay Now</a>
+            </div>
+
+            <!-- SadaPay -->
+            <div class="payment-card bg-black-900 rounded-lg p-6 glow-effect border border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <i class="fas fa-mobile-alt text-3xl text-white-500"></i>
+                    <span class="bg-white-600 text-xs px-3 py-1 rounded-full">Buy Now</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">SadaPay</h3>
+                <p class="text-black-400 text-sm mb-4">Modern digital banking solution</p>
+  <a href="./paymentsend.html" class="w-full bg-black-600 hover:bg-green-700 text-black font-bold py-3 px-4 rounded btn-hover transition-all duration-300"> Pay Now</a>
+            
+            </div>
+
+            <!-- JazzCash -->
+            <div class="payment-card bg-black-900 rounded-lg p-6 glow-effect border border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <i class="fas fa-phone-alt text-3xl text-white-500"></i>
+                    <span class="bg-white-600 text-xs px-3 py-1 rounded-full">Mobile</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">JazzCash</h3>
+                <p class="text-white-400 text-sm mb-4">Mobile financial services by Jazz</p>
+                <a href="./paymentsend.html" class="w-full bg-black-600 hover:bg-green-700 text-black font-bold py-3 px-4 rounded btn-hover transition-all duration-300"> Pay Now</a>
+            </div>
+
+            <!-- USA Payment -->
+            <div class="payment-card bg-black-900 rounded-lg p-6 glow-effect border border-green-500">
+                <div class="flex items-center justify-between mb-4">
+                    <i class="fas fa-flag-usa text-3xl text-white-500"></i>black
+                    <span class="bg-white-600 text-xs px-3 py-1 rounded-full">USA</span>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">USA Payments</h3>
+                <p class="text--400 text-sm mb-4">International payments via US banks</p>
+            <a href="./paymentsend.html" class="w-full bg-black-600 hover:bg-green-700 text-black font-bold py-3 px-4 rounded btn-hover transition-all duration-300"> Pay Now</a>
+            </div>
+        </div>
+
+        <!-- Success Message Container -->
+        <div id="success-message" class="hidden bg-green text-black rounded-lg text-center font-bold">
+            Payment initiated successfully!
+        </div>
+    </div>
+
+    <script>
+        // Add click event listeners to all pay buttons
+        document.querySelectorAll('.payment-card button').forEach(button => {
+            button.addEventListener('click', function() {
+                // Show success message
+                const successMsg = document.getElementById('success-message');
+                successMsg.classList.remove('hidden');
+                
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    successMsg.classList.add('hidden');
+                }, 3000);
+                
+                // Log payment initiation
+                console.log('Payment initiated for:', this.closest('.payment-card').querySelector('h3').textContent);
+            });
+        });
+    </script>
+</body>
+</html>
